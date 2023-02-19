@@ -1,0 +1,142 @@
+:root {
+  font-size: 16px;
+  line-height: 24px;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  font-family:  PingFang SC,Alibaba PuHuiTi, Inter, Avenir, Helvetica, Arial, sans-serif;
+  --el-color-primary:#42392b;
+}
+* {
+  padding: 0;
+  margin: 0;
+}
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+.main {
+  .content {
+    // min-height: 45vh;
+    padding-bottom: 30px;
+  }
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #535bf2;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #535bf2;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: #646cff;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+
+  a:hover {
+    color: #747bff;
+  }
+
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+// 在填充数据之前隐藏
+[v-cloak] {
+  display: none;
+}
+.cusInput .el-input__inner {
+  height: 100%;
+}
+.noBorder .el-input__inner {
+  border: none;
+}
+.addressInput .el-input__inner {
+  background: #fff7ec;
+}
+.cusInput,
+.cusArea {
+  width: 99% !important;
+  .el-input__inner {
+    height: 100%;
+    border: none;
+  }
+}
+.cusAreaBorder .el-textarea__inner {
+  border: 1px solid rgba(0, 0, 0, 1);
+}
+.fullUpload .el-upload {
+  width: 100%;
+}
+
+.el-table.light {
+.thead .cell {
+    font-size: 13px;
+    font-family: PingFang SC;
+    font-weight: normal;
+    color: #999999;
+  }
+  .tbody .cell{
+    font-size: 12px;
+    font-family: PingFang SC;
+    color: #000000;
+  }
+}
+.el-table.dark {
+  .thead  .cell {
+      font-size: 13px;
+      font-family: PingFang SC;
+      color: #000000;
+      font-weight: normal;
+  }
+  .tbody .cell{
+    font-size: 12px;
+    font-family: PingFang SC;
+    color: #000000;
+  }
+}
