@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
+	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
+	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
+	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
+	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
+	<!ENTITY st0 "fill:#242424;">
+	<!ENTITY st1 "fill:#FFFFFF;">
+]>
+<svg version="1.1" id="图层_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 200"
+	 style="enable-background:new 0 0 200 200;" xml:space="preserve">
+<metadata>
+	<sfw  xmlns="&ns_sfw;">
+		<slices></slices>
+		<sliceSourceBounds  bottomLeftOrigin="true" height="174.11" width="183.85" x="8.08" y="10.1"></sliceSourceBounds>
+	</sfw>
+</metadata>
+<path style="&st0;" d="M108.02,182.35V25.77l13.3-8.57c1.23-0.88,2.75-1.41,4.38-1.41h54.1c6.74,0.23,12.13,5.76,12.13,12.56v136.62
+	c-0.35,6.21-5.2,11.21-11.33,11.8h-53.14l-20.62,11.91c-1.87,0.9-3.91,1.29-5.94,1.21C104.87,189.68,108.02,186.39,108.02,182.35
+	L108.02,182.35z M91.98,182.35V25.77l-13.3-8.57c-1.23-0.88-2.75-1.41-4.38-1.41h-54.1c-6.74,0.23-12.13,5.76-12.13,12.56v136.62
+	c0.35,6.21,5.2,11.21,11.33,11.8h53.16l20.63,11.91c1.88,0.9,3.91,1.29,5.94,1.21C95.15,189.68,91.98,186.39,91.98,182.35
+	L91.98,182.35z"/>
+<path style="&st1;" d="M76.2,62.06c0-4.41-3.57-8.01-8.01-8.01H50.99c-4.41,0-8.01,3.57-8.01,8.01c0,4.41,3.57,8.01,8.01,8.01h17.21
+	C72.61,70.05,76.2,66.47,76.2,62.06z M76.2,97.8c0-4.41-3.57-8.01-8.01-8.01H47.08c-4.41,0-8.01,3.57-8.01,8.01
+	c0,4.41,3.57,8.01,8.01,8.01h21.11C72.61,105.79,76.2,102.22,76.2,97.8z M76.2,133.54c0-4.41-3.57-8.01-8.01-8.01H52.94
+	c-4.41,0-8.01,3.57-8.01,8.01c0,4.41,3.57,8.01,8.01,8.01h15.25C72.61,141.55,76.2,137.96,76.2,133.54z"/>
+</svg>

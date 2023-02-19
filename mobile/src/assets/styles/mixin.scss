@@ -1,0 +1,110 @@
+@mixin clearfix {
+    &:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+  }
+  
+  @mixin scrollBar {
+    &::-webkit-scrollbar-track-piece {
+      background: #d3dce6;
+    }
+  
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background: #99a9bf;
+      border-radius: 20px;
+    }
+  }
+  
+  @mixin relative {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  @mixin pct($pct) {
+    width: #{$pct};
+    position: relative;
+    margin: 0 auto;
+  }
+  /*弹性盒子（传入null不设置该属性）*/
+@mixin flexBox($direction: row, $justify:flex-start, $align: flex-start, $flex-wrap: nowrap) {
+    display: flex;
+    @if ($direction!=null) {
+        flex-direction: $direction;
+    }
+    @if ($justify!=null) {
+        justify-content: $justify;
+    }
+    @if ($align!=null) {
+        align-items: $align;
+    }
+    @if ($flex-wrap != null) {
+        flex-wrap: $flex-wrap;
+    }
+}
+/*定位：垂直居中*/
+  @mixin positionct{
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform: translate(-50%,-50%);
+  }
+/*文本格式化，超出范围，显示省略号*/
+  @mixin textOverflow($width:100%,$display:block) {
+    width: $width;
+    display: $display;
+    white-space: nowrap;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  /*多行文本格式化，超出范围，显示省略号*/
+  @mixin textOverflowClamp($line:2){
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: $line;
+    -webkit-box-orient: vertical;
+  }
+  /*自动换行*/
+  @mixin wordBreak{
+    word-wrap:break-word;
+    word-break:break-all;
+  }
+  @mixin triangle($width, $height, $color, $direction) {
+    $width: $width/2;
+    $color-border-style: $height solid $color;
+    $transparent-border-style: $width solid transparent;
+    height: 0;
+    width: 0;
+  
+    @if $direction==up {
+      border-bottom: $color-border-style;
+      border-left: $transparent-border-style;
+      border-right: $transparent-border-style;
+    }
+  
+    @else if $direction==right {
+      border-left: $color-border-style;
+      border-top: $transparent-border-style;
+      border-bottom: $transparent-border-style;
+    }
+  
+    @else if $direction==down {
+      border-top: $color-border-style;
+      border-left: $transparent-border-style;
+      border-right: $transparent-border-style;
+    }
+  
+    @else if $direction==left {
+      border-right: $color-border-style;
+      border-top: $transparent-border-style;
+      border-bottom: $transparent-border-style;
+    }
+  }
