@@ -4,35 +4,44 @@ import Header from "../components/Header.vue"
 import Footer from "../components/Footer.vue"
 import NoData from "../components/NoData.vue"
 import { Search } from '@element-plus/icons-vue'
-import testImg from "../assets/img/test.jpg"
 import { get, post } from "../service/http"
 import router from "../router/index"
 import cache from "../assets/lib/cache"
 import AssetCom from "../components/MyCollection/asset.vue"
 import TradesCom from "../components/MyCollection/trades.vue"
 import ShouyiCom from "../components/MyCollection/transactions.vue"
+import defaultBg from "../assets/img/defaultBg.png"
+import message from "../assets/lib/resetMessage"
 const searchKey = ref('')
 const cardIndex = ref(1)
 const headerWrapRef = ref(null)
-const userInfo = ref({ statistic: {} })
+const userInfo = ref({desc:'', statistic: {} })
+const calcBackgroundImg = () => {
+  if (!headerWrapRef.value) return
+  const banner_url = userInfo.value.banner_url
+  if (banner_url) {
+    headerWrapRef.value.style.backgroundImage = `url(${userInfo.value.banner_url})`
+  } else
+    headerWrapRef.value.style.backgroundImage = `url(${defaultBg})`
+}
 onMounted(() => {
   userInfo.value = cache.get("userInfo") || {}
   headerWrapRef.value.style.backgroundImage = `url(${userInfo.value.banner_url})`
   // 检查到token变化 则更新
   window.addEventListener("setItemEvent", async function (e) {
     if (e.key === "userInfo") {
-      await nextTick()
       userInfo.value = JSON.parse(e.newValue);
-      headerWrapRef.value.style.backgroundImage = `url(${userInfo.value.banner_url})`
+      calcBackgroundImg()
     }
   })
+  calcBackgroundImg()
 })
 const setCard = (index) => {
   cardIndex.value = index
 }
 const encate = (addr) => {
   if (addr) {
-    return addr.substr(0, 6) + "****" + addr.substr(-4, 4)
+    return addr.substr(0, 6) + "..." + addr.substr(-4, 4)
   }
 }
 const goLink = (key) => {
@@ -42,30 +51,39 @@ const goLink = (key) => {
     message.warning("no " + key)
   }
 }
+const goPath = (path) => {
+  router.push({ path })
+}
+const isMoreDesription = ref(false)
 </script>
 <template>
   <div class="main">
     <div class="headerWrapImg" ref="headerWrapRef">
+      <div class="innerMask"></div>
       <Header></Header>
       <div class="authorHeader">
         <div>
-          <span class="authoreName">{{ userInfo.name || 'anonymous' }}</span>
+          <span class="authoreName" v-show="userInfo.name">{{ userInfo.name || 'anonymous' }}</span>
           <span class="address">{{ encate(userInfo.address) || '' }}</span>
         </div>
         <div class="iconBulk">
-          <img src="../assets/img/site.svg" class="el-image" @click="goLink('website_url')">
-          <img src="../assets/img/discord.svg" class="el-image" @click="goLink('discord_url')">
-          <img src="../assets/img/twitter.svg" class="el-image">
+          <img src="../assets/img/site.svg" class="el-image" v-if="userInfo.website_url" @click="goLink('website_url')">
+          <img src="../assets/img/discord.svg" class="el-image" v-if="userInfo.discord_url"
+            @click="goLink('discord_url')">
+          <img src="../assets/img/twitter.svg" class="el-image" v-if="userInfo.twitter_url"
+            @click="goLink('twitter_url')">
           <span class="stepLine"></span>
-          <img src="../assets/img/setting.svg" class="el-image">
+          <img src="../assets/img/setting.svg" class="el-image" @click="goPath('/personSettings')">
         </div>
       </div>
     </div>
     <div class="authorDescription">
-      <el-tooltip placement="bottom">
-        <template #content> {{ userInfo.desc || '什么也没有留下' }}</template>
-        <div class="description">{{ userInfo.desc || '什么也没有留下' }}</div>
-      </el-tooltip>
+      <div class="description" :class="{ 'isMoreDesription': isMoreDesription ? true : false }">
+        {{ userInfo.desc || '什么也没有留下' }}
+      </div>
+      <div class="moreBtn" @click="isMoreDesription = !isMoreDesription" v-if="userInfo.desc.length > 393">
+        {{ isMoreDesription ? '收起' : " read more" }}
+      </div>
       <div class="numbersList">
         <div class="numberCard">
           <div class="value">{{ userInfo.statistic?.total_volume || 0 }}</div>
@@ -93,7 +111,7 @@ const goLink = (key) => {
           <div class="label">Owner</div>
         </div>
       </div>
-      <el-image :src="testImg" class="autorAvatar"></el-image>
+      <el-image v-if="userInfo.avatar_url" :src="userInfo.avatar_url" class="autorAvatar"></el-image>
     </div>
     <div class="navigator">
       <span :class="{ actived: cardIndex === 1 }" @click="setCard(1)">My Collection</span>
@@ -116,16 +134,37 @@ const goLink = (key) => {
 
 
   .headerWrapImg {
-    background: #ffe1b4;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-position: center;
+    position: relative;
+
+    .innerMask {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 225, 180, 0.8);
+      z-index: 1;
+    }
+
+    /* 模糊大小就是靠的blur这个函数中的数值大小 */
+    //  backdrop-filter: blur(30px);
+
+    .cusHeader {
+      position: relative;
+      z-index: 2;
+    }
 
     .authorHeader {
       display: flex;
       justify-content: space-between;
       width: $contentWidth;
       min-width: $contentMinWidth;
-      margin: 10px auto 0 auto;
+      margin: 82px auto 0 auto;
+      padding-bottom: 10px;
+      position: relative;
+      z-index: 2;
 
       .authoreName {
         font-size: 22px;
@@ -147,6 +186,7 @@ const goLink = (key) => {
           height: 25px;
           border-radius: 25px;
           margin-left: 25px;
+          cursor: pointer;
         }
 
         .stepLine {
@@ -166,13 +206,15 @@ const goLink = (key) => {
     margin: 0 auto;
     position: relative;
     padding-top: 10px;
+    position: relative;
+    z-index: 2;
 
     .description {
       width: 1031px;
       height: 45px;
       font-size: 15px;
       color: #999999;
-      margin-bottom: 30px;
+
       text-overflow: -o-ellipsis-lastline;
       overflow: hidden; //溢出内容隐藏
       text-overflow: ellipsis; //文本溢出部分用省略号表示
@@ -180,6 +222,25 @@ const goLink = (key) => {
       -webkit-line-clamp: 2; //行数
       line-clamp: 2;
       -webkit-box-orient: vertical; //盒子中内容竖直排列
+      position: relative;
+
+      &.isMoreDesription {
+        height: 120px;
+        -webkit-line-clamp: 5; //行数
+        line-clamp: 5;
+      }
+    }
+
+    .moreBtn {
+      display: inline-block;
+      letter-spacing: 1px;
+      font-size: 15px;
+      font-family: PingFang SC;
+      color: #7D5321;
+      border-bottom: 1px solid #7D5321;
+      padding-bottom: 4px;
+      cursor: pointer;
+      margin:5px 0 20px 0;
     }
 
     .numbersList {
@@ -339,5 +400,4 @@ const goLink = (key) => {
     }
 
   }
-}
-</style>
+}</style>

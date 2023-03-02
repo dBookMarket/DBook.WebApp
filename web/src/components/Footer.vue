@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from "vue"
 import AppDownloadCom from "./AppDownload.vue"
-import testImg from "../assets/img/test.jpg"
 import qrcodeImg from "../assets/img/qrcode.jpeg"
 const downloadRef = ref(null)
 const toTwitter = () => {

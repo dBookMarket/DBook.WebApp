@@ -11,11 +11,11 @@ const form = ref({})
 // 1. 获取用户twitter授权 ,返回 auth_url: ''
 const goOn = async () => {
     const res = await put("/users/auth")
-    if (res.ready) {
+    if (res && res.ready) {
         window.open(res.data.auth_uri)
         cache.set("auth_uri", res.data.auth_uri)
         verifyShow.value = false
-        sendShow.value = true
+        sendShow.value = false
     }
 }
 const updateAuth = async (oauth_token, oauth_verifier) => {
@@ -26,7 +26,7 @@ const updateAuth = async (oauth_token, oauth_verifier) => {
     form.value.oauth_verifier = oauth_verifier
     console.log(verifyShow.value, sendShow.value)
 }
-defineExpose({ updateAuth })
+
 // 2，发送twitter并授权
 const finish = async () => {
     const res = await put("/users/share", {
@@ -50,6 +50,13 @@ const resetParam = () => {
     sendShow.value = false
     router.push({ path: '/' })
 }
+const hide = () => {
+    verifyShow.value = false
+}
+const show = () => {
+    verifyShow.value = true
+}
+defineExpose({ updateAuth,show })
 </script>
 <template>
     <div class="authorVerify" v-show="verifyShow || sendShow">
@@ -61,7 +68,7 @@ const resetParam = () => {
                 address after successful verification, and you can re-verify
                 it in your personal center if you need to modify it later.</div>
             <div class="operaIcon">
-                <span class="cancel" @click="verifyShow = false">Cancel</span>
+                <span class="cancel" @click="hide()">Cancel</span>
                 <span class="continue" @click="goOn">Go on</span>
             </div>
         </div>

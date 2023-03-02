@@ -1446,6 +1446,14 @@ class Wallet {
             if (typeof window.ethereum !== 'undefined') {
                 // 实例化web3
                 this.web3Instance = new web3(ethereum) // 取小狐狸的地址
+                ethereum.request({ method: 'eth_chainId' }).then(res => {
+                    console.log(res)
+                    let setEvent = new Event('setItemEvent')
+            setEvent.key = "oooooooooo"
+            setEvent.newValue = res
+            window.dispatchEvent(setEvent)
+                })
+                this.chainChanged();
                 if (blockChain) {
                     this.blockChain = blockChain
                     this.web3Modal = new Web3Modal({
@@ -1474,7 +1482,7 @@ class Wallet {
         // 判断链对不，链不对就请求切换网络，或者添加网络，
         if (window.ethereum) {
             // 返回16进制形式的chainID，如0x1, 0x4等
-            // const chainId = await ethereum.request({ method: 'eth_chainId' })
+            const chainId = await ethereum.request({ method: 'eth_chainId' })
             try {
                 await window.ethereum.request({
                     method: 'wallet_switchEthereumChain',
@@ -1509,14 +1517,14 @@ class Wallet {
             }
             that.chainChanged();
         }
-        if (window.ethereum) {
-            // 监听链id变化
-            window.ethereum.on("chainChanged", (chainId1) => {
-                let chainId = chainId1;
-                console.log('链切换')
-                window.location.reload();
-            });
-        }
+        // if (window.ethereum) {
+        //     // 监听链id变化
+        //     window.ethereum.on("chainChanged", (chainId1) => {
+        //         let chainId = chainId1;
+        //         console.log('链切换')
+        //         window.location.reload();
+        //     });
+        // }
     }
     async getAddress() {
         try {
@@ -1537,6 +1545,11 @@ class Wallet {
         ethereum.on("accountsChanged", function (accounts) {
             console.log('钱包切换')
             window.location.reload();
+            // const chainId = await ethereum.request({ method: 'eth_chainId' })
+            // let setEvent = new Event('setItemEvent')
+            // setEvent.key = "oooooooooo"
+            // setEvent.newValue = accounts
+            // window.dispatchEvent(setEvent)
         });
     }
     async connect() {
@@ -1604,6 +1617,8 @@ class Wallet {
             return res;
         } catch (e) {
             console.log('Exception when calling issue ->', e);
+            message.warning("已拒绝.")
+            window.hideLoading()
             return null;
         }
     }
@@ -1667,12 +1682,22 @@ class Wallet {
         try {
             // get platform fee from contract
             let _fee = await this.getFee(signer, blockChain); // wei
+            console.log("_fee", _fee)
             if (_fee != null && _fee > fee) fee = _fee;
             else fee = this.toWei(parseFloat(fee));
+            console.log(price)
+            console.log(parseFloat(price))
             let tradeValue = this.toWei(parseInt(amount) * parseFloat(price)) + fee;
             const platformContract = new ethers.Contract(contractAddress[blockChain].platform, contractAbi.platform, signer);
             const buyer = await this.getAddress(signer);
+            console.log("===================")
+            console.log(platformContract)
+            // let txn2 = await platformContract.setPlatformRatio(0)
+            // let res2 = await txn2.wait();
+            // console.log("getNftPrice", res2)
+            console.log(seller, buyer, nftId, amount, metadata, tradeValue, fee)
             let txn = await platformContract.trade(seller, buyer, nftId, amount, metadata, tradeValue, fee);
+            console.log("trade执行结果")
             let res = await txn.wait();
             return res;
         } catch (e) {
@@ -1767,9 +1792,13 @@ class Wallet {
     }
     chainChanged() {
         //监听链网络改变
-        ethereum.on("chainChanged", () => {
-            console.log('链切换')
-            window.location.reload();
+        ethereum.on("chainChanged", (res) => {
+            console.log('链切换', res)
+            // window.location.reload();
+            let setEvent = new Event('setItemEvent')
+            setEvent.key = "oooooooooo"
+            setEvent.newValue = res
+            window.dispatchEvent(setEvent)
         });
     }
     toWei(amount) {

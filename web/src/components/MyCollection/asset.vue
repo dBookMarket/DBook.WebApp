@@ -40,6 +40,8 @@ const sellBook = async (row) => {
     // 获取issue详情页
     freshIssues()
 }
+
+// 售卖
 const createTrade = async () => {
     if (tradeForm.value.n_owned == 0) {
         message.warning("Purchase quantity must be greater than 1")
@@ -83,7 +85,7 @@ getCollection()
                         <img src="../../assets/img/read.svg" alt="">
                         <span>Read</span>
                     </div>
-                    <div class="opItem" @click="sellBook(item)">
+                    <div class="opItem" @click="sellBook(item)" v-if="item.issue.status !== 'on_sale'">
                         <img src="../../assets/img/sell.svg" alt="">
                         <span>Sell</span>
                     </div>

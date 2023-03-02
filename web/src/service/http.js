@@ -98,12 +98,10 @@ service.interceptors.response.use(
             }
             return dealBulkData(null);
         } else {
-            window.hideLoading && window.hideLoading()
             return Promise.reject();
         }
     },
     err => {
-        window.hideLoading && window.hideLoading()
         // 请求被取消了，响应器也会走错误流程，这里返回一下自定义格式
         if (err) {
             // if(err.config && err.config.headers.showLoading !== false) {
@@ -145,7 +143,7 @@ service.interceptors.response.use(
                         case 403: app.$message.error('拒绝访问'); break;
                         case 404: app.$message.error(`请求地址出错`); break;
                         case 408: app.$message.error('请求超时'); break;
-                        case 500: app.$message.error('系统异常'); break;
+                        case 500: app.$message.error(err.response.statusText); break;
                         case 501: app.$message.error('服务未实现'); break;
                         case 502: app.$message.error('网关错误'); break;
                         case 503: app.$message.error('系统异常'); break;
@@ -174,8 +172,8 @@ const errorHandler = (error) => {
  * @param params
  * @param config
  */
-export const get = (url, config = {}) => {
-    return service.get(url, config.headers ? config : { params: config }).then((res) => res, (err) => errorHandler(err));
+export const get = async (url, config = {}) => {
+    return  service.get(url, config.headers ? config : { params: config }).then((res) => res, (err) => errorHandler(err));
 };
 export const post = (url, data, config) => {
     return service.post(url, data, config).then((res) => res, (err) => errorHandler(err));

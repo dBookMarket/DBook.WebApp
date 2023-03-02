@@ -7,17 +7,18 @@ import NoData from "../components/NoData.vue"
 import router from "../router"
 import { get, post } from "../service/http"
 import message from "../assets/lib/resetMessage"
-const userInfo = ref({})
+const userInfo = ref({ desc: '', statistic: {} })
 const headerWrapRef = ref()
 // 获取用户信息
 const getUserInfo = async (id) => {
+  window.setLoading()
   const res = await get(`users/${id}`)
   if (res.ready) {
     userInfo.value = res.data
-    console.log(res.data)
     await nextTick()
     headerWrapRef.value.style.backgroundImage = `url(${userInfo.value.banner_url})`
   }
+  window.hideLoading()
 }
 // 获取藏品 collection
 const collections = ref([])
@@ -40,9 +41,11 @@ const getPublished = async (id) => {
 const userId = router.currentRoute.value.params.id
 if (userId) {
   getUserInfo(userId)
-  getActivity(userId)
-  getCollection(userId)
   getPublished(userId)
+  setTimeout(() => {
+    getCollection(userId)
+    getActivity(userId)
+  }, 1000)
 } else {
   router.push({ path: "/" })
 }
@@ -65,27 +68,36 @@ const setBanner = () => {
 }
 const encate = (addr) => {
   if (addr) {
-    return addr.substr(0, 6) + "****" + addr.substr(-4, 4)
+    return addr.substr(0, 6) + "..." + addr.substr(-4, 4)
   }
 }
 const checkBook = (row) => {
-  console.log(row)
   router.push({ path: `/issueInfo/${row.id}/display` })
 }
 // 关注
 const createFans = async () => {
-  console.log(userInfo.value)
   const res = await post('fans', {
     author: userInfo.value.id
   })
-  console.log(res)
   if (res.ready) {
     message.success("success")
+    userInfo.value.is_fans = true
+  }
+}
+// 取消关注
+const cancelFans = async () => {
+  const res = await post('fans/remove', {
+    author: userInfo.value.id
+  })
+  if (res.ready) {
+    message.success("success")
+    userInfo.value.is_fans = false
   }
 }
 const share = () => {
   console.log("share")
 }
+const isMoreDesription = ref(false)
 </script>
 <template>
   <div class="main">
@@ -102,16 +114,16 @@ const share = () => {
           <img src="../assets/img/twitter.svg" class="el-image" @click="goLink('twitter_url')"
             v-show="userInfo.twitter_url">
           <span class="stepLine"></span>
-          <img src="../assets/img/shoucang_.svg" class="el-image" @click="createFans">
-          <!-- <img src="../assets/img/share_.svg" class="el-image" @click="share"> -->
+          <img src="../assets/img/isFan.svg" class="el-image" v-if="userInfo.is_fans" @click="cancelFans">
+          <img src="../assets/img/shoucang_.svg" class="el-image" v-else @click="createFans">
         </div>
       </div>
     </div>
-    <div class="authorDescription">
-      <!-- <el-tooltip placement="bottom">
-        <template #content> {{userInfo.desc || '什么也没有留下'}}</template> -->
-      <div class="description" :title="userInfo.desc || '什么也没有留下'">{{ userInfo.desc || '什么也没有留下' }}</div>
-      <!-- </el-tooltip> -->
+    <div class="authorDescription" >
+      <div class="description"  :class="{ 'isMoreDesription': isMoreDesription ? true : false }">{{ userInfo.desc || '什么也没有留下' }}</div>
+      <div class="moreBtn" @click="isMoreDesription = !isMoreDesription" v-if="userInfo.desc.length > 200">
+        {{ isMoreDesription ? '收起' : " read more" }}
+      </div>
       <div class="numbersList">
         <div class="numberCard">
           <div class="value">{{ userInfo.statistic?.total_volume || 0 }}</div>
@@ -235,7 +247,10 @@ const share = () => {
       justify-content: space-between;
       width: $contentWidth;
       min-width: $contentMinWidth;
-      margin: 10px auto 0 auto;
+      margin: 82px auto 0 auto;
+      padding-bottom: 10px;
+      position: relative;
+      z-index: 2;
 
       .authoreName {
         font-size: 22px;
@@ -283,7 +298,6 @@ const share = () => {
       height: 45px;
       font-size: 15px;
       color: #999999;
-      margin-bottom: 30px;
       text-overflow: -o-ellipsis-lastline;
       overflow: hidden; //溢出内容隐藏
       text-overflow: ellipsis; //文本溢出部分用省略号表示
@@ -291,6 +305,24 @@ const share = () => {
       -webkit-line-clamp: 2; //行数
       line-clamp: 2;
       -webkit-box-orient: vertical; //盒子中内容竖直排列
+
+      &.isMoreDesription {
+        height: 120px;
+        -webkit-line-clamp: 5; //行数
+        line-clamp: 5;
+      }
+    }
+
+    .moreBtn {
+      display: inline-block;
+      letter-spacing: 1px;
+      font-size: 15px;
+      font-family: PingFang SC;
+      color: #7D5321;
+      border-bottom: 1px solid #7D5321;
+      padding-bottom: 4px;
+      cursor: pointer;
+      margin: 5px 0 20px 0;
     }
 
     .numbersList {

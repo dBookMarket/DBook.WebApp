@@ -1,5 +1,5 @@
 <script setup>
-import { nextTick, onMounted, ref, defineEmits } from "vue"
+import { nextTick, onMounted, ref } from "vue"
 import person_icon_1 from "../assets/img/person_icon_1.svg"
 import person_icon_2 from "../assets/img/person_icon_2.svg"
 import person_icon_3 from "../assets/img/person_icon_3.svg"
@@ -7,18 +7,20 @@ import person_icon_4 from "../assets/img/person_icon_4.svg"
 import person_icon_5 from "../assets/img/person_icon_5.svg"
 import person_icon_6 from "../assets/img/person_icon_6.svg"
 import person_icon_7 from "../assets/img/person_icon_7.svg"
-
 import { CaretBottom } from '@element-plus/icons-vue'
 import router from "../router/index"
 import message from "../assets/lib/resetMessage"
 import cache from "../assets/lib/cache"
 import { get, post, put } from "../service/http"
 import Wallet from '../service/wallet'
+import { imageUrlToBase64 } from "../assets/lib/util"
+const emit = defineEmits(['verify'])
 const walletSelectedAddress = ref('')
 const userInfo = ref({})
 // 唤起钱包 并 签名
 const walletInstance = new Wallet()
 const getWallet = async () => {
+  window.setLoading()
   cache.clear()
   const address = await walletInstance.getAddress()
   if (address) {
@@ -30,6 +32,9 @@ const getWallet = async () => {
       cache.set("nonce", res.data.nonce, 10, 'day')
       cache.set("token", loginRes.data.token, 10, 'day')
       checkWallet()
+      setTimeout(() => {
+        window.hideLoading()
+      }, 500)
     }
   } else {
     message.warning("address error")
@@ -46,8 +51,16 @@ const logout = async () => {
     rightConKey.value++
   }
 }
-const goPath = (path) => {
-  router.push({ path })
+const goPath = (path, checkIsAuthor) => {
+  if (checkIsAuthor) {
+    if (userInfo.value.is_verified) {
+      router.push({ path })
+    } else {
+      emit('verify')
+    }
+  } else {
+    router.push({ path })
+  }
 }
 const encate = (addr) => {
   if (addr) {
@@ -66,26 +79,21 @@ const checkWallet = async () => {
     } else {
       const res = await get("users/current")
       if (res.ready) {
-        cache.set("userInfo", res.data)
         userInfo.value = res.data
+        cache.set("userInfo", res.data)
       }
     }
-    console.log(userInfo.value.address,encate(userInfo.value.address))
-        userInfo.value.name = encate(userInfo.value.address)
-    if (!userInfo.value.avatar_url) {
-      const avatar = await get("https://api.uomg.com/api/rand.avatar?sort=动漫男&format=json")
-      if (avatar.data.imgurl) {
-        // const formData = new FormData()
-        // formData.set('avatar', avatar.data)
-        // const res = await put(`users/${userInfo.value.id}`, formData)
-        // if (res.ready) {
-        //   message.success("update success !")
-        //   cache.set("userInfo", res.data)
-        // }
-          userInfo.value.avatar_url = avatar.data.imgurl
-        
-          cache.set("userInfo", userInfo.value)
-      }
+    if (!userInfo.value.name && !userInfo.value.avatar_url) {
+      // 新用户没有头像 和 名字
+      const formData = new FormData()
+      formData.set("name", encate(userInfo.value.address))
+      const randomImgIndex = Math.floor(Math.random() * 20 + 1)
+      const avatar_url = '/src/assets/img/avatar/' + randomImgIndex + '.svg'
+      imageUrlToBase64(avatar_url, async (file) => {
+        formData.set('avatar', file)
+        const res = await put(`users/${userInfo.value.id}`, formData)
+        cache.set("userInfo", res.data)
+      })
     }
   } else {
     walletSelectedAddress.value = ''
@@ -96,14 +104,11 @@ window.addEventListener("setItemEvent", async function (e) {
   if (e.key === "token") {
     checkWallet()
   } else if (e.key === "userInfo") {
-    await nextTick()
     userInfo.value = JSON.parse(e.newValue);
-    // console.log(userInfo.value)
-
+    console.log("cache")
   }
 })
 checkWallet()
-const emit = defineEmits(['verify'])
 const goPublish = () => {
   if (userInfo.value.is_verified) {
     goPath("/publishBook/-1/book")
@@ -129,15 +134,15 @@ const goPublish = () => {
           </div>
         </template>
         <ul class="operList">
-          <li @click="goPath('/writePublishManagement/draft')">
+          <li @click="goPath('/writePublishManagement/draft', 'checkIsAuthor')">
             <el-image :src="person_icon_1"></el-image>
             <span>Writing</span>
           </li>
-          <li @click="goPath('/writePublishManagement/listed')">
+          <li @click="goPath('/writePublishManagement/listed', 'checkIsAuthor')">
             <el-image :src="person_icon_2"></el-image>
             <span>Publication management</span>
           </li>
-          <li @click="goPath('/writePublishManagement/earnings')">
+          <li @click="goPath('/writePublishManagement/earnings', 'checkIsAuthor')">
             <el-image :src="person_icon_3"></el-image>
             <span>Earnings</span>
           </li>

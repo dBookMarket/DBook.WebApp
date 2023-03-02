@@ -23,6 +23,7 @@ const calcText = (status) => {
 // 上架成功的书籍
 const list = ref([])
 const getList = async () => {
+    window.setLoading()
     const res = await get(`issues/current`)
     list.value = res.data.results
     window.hideLoading()

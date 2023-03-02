@@ -20,6 +20,7 @@ const changeBanner = (file) => {
   form.value['banner_url'] = URL.createObjectURL(file.raw);
 }
 const updateUser = async () => {
+  window.setLoading()
   formData.set("name", form.value.name)
   formData.set("desc", form.value.desc)
   formData.set("website_url", form.value.website_url)
@@ -29,11 +30,12 @@ const updateUser = async () => {
     message.success("update success !")
     cache.set("userInfo", res.data)
     form.value = res.data
+    window.hideLoading()
   }
 }
-const copyAddress = () => {
+const copyAddress = (text) => {
   const input = document.getElementById('input')// 承载复制内容
-  input.value = form.value.address; // 修改文本框的内容
+  input.value = text; // 修改文本框的内容
   input.select(); // 选中文本
   document.execCommand('copy')
   message.success("copy success !")
@@ -81,7 +83,13 @@ const twitterAuth = async () => {
           <img src="../assets/img/twitter.svg" alt="">
           <span>Twitter</span>
         </div>
-        <div class="authBtn" @click="twitterAuth" v-show="form.is_verified === false">Authentication</div>
+        <div class="authBtn" @click="twitterAuth" >
+          {{ form.is_verified? '重新认证':'认证' }}
+        </div>
+      </div>
+      <div class="copyWrap">
+        <el-input v-model="form.twitter_url" class="cusInput addressInput" diabled></el-input>
+        <img src="../assets/img/copy.svg" alt="" @click="copyAddress(form.twitter_url)">
       </div>
       <div class="title_">Site</div>
       <el-input v-model="form.website_url" class="cusInput" placeholder="https://"></el-input>
@@ -90,7 +98,7 @@ const twitterAuth = async () => {
       <div class="title_">Wallet address</div>
       <div class="copyWrap">
         <el-input v-model="form.address" class="cusInput addressInput" diabled></el-input>
-        <img src="../assets/img/copy.svg" alt="" @click="copyAddress">
+        <img src="../assets/img/copy.svg" alt="" @click="copyAddress(form.address)">
       </div>
       <div class="operaBtn" @click="updateUser">Save</div>
     </div>

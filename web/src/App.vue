@@ -1,18 +1,11 @@
-<template>
-  <div class="appContaner">
-    <Loading></Loading>
-    <el-scrollbar style="height: 100vh">
-      <router-view></router-view>
-    </el-scrollbar>
-  </div>
-</template>
-
 <script setup>
-import { ref, defineComponent, onMounted } from 'vue'
+import { ref, defineComponent, onMounted,provide } from 'vue'
 import DevicePixelRatio from './assets/lib/devicePixelRatio'
 import Loading from "./components/Loading.vue"
+import ChainTip from "./components/ChainTip.vue"
 import router from './router';
 
+const scrollbarRef_= ref(null)
 function isMobile() {
   var userAgentInfo = navigator.userAgent;
 
@@ -41,11 +34,11 @@ onMounted(() => {
       setLoading()
     }
   })
-  router.afterEach((to, from, nex) => {
-    setTimeout(() => {
-      hideLoading()
-    }, 500)
-  })
+  // router.afterEach((to, from, nex) => {
+  //   setTimeout(() => {
+  //     hideLoading()
+  //   }, 500)
+  // })
   if (isMobile()) {
     // 手机
     document.getElementsByTagName('body')[0].style.zoom = 1
@@ -55,11 +48,22 @@ onMounted(() => {
     new DevicePixelRatio().init()
   }
   // hideLoading()
+  // 向子组件注入 scrollbarRef_，方便子组件使用
+provide("scrollbarRef_", scrollbarRef_)
 })
-</script>
 
-<style lang="scss">
-#appContaner {
+</script>
+<template>
+  <div class="appContaner">
+    <Loading></Loading>
+    <!-- <ChainTip></ChainTip> -->
+    <el-scrollbar style="height: 100vh"  ref="scrollbarRef_" >
+      <router-view></router-view>
+    </el-scrollbar>
+  </div>
+</template>
+<style >
+.appContaner {
   width: 100%;
   height: 100%;
   position: relative;

@@ -14,7 +14,7 @@ const isAdd = ref(false)
 const getBookDetail = async (id) => {
   if (id != -1) {
     const res = await get(`books/${id}`)
-    if(!res.data.cover_url) isAdd.value = true
+    if (!res.data.cover_url) isAdd.value = true
     form.value.cover_url = res.data.cover_url
     form.value.title = res.data.title
     form.value.desc = res.data.desc
@@ -88,22 +88,21 @@ const goOn = async () => {
   formData.set("title", form.value.title)
   formData.set("desc", form.value.desc)
   let res;
-  if(isAdd) {
+  if (isAdd) {
     // 新增
     res = await post("books", formData)
   } else {
-  // 编辑
-  res = await patch(`books/${bookOrDraftId}`, formData)
+    // 编辑
+    res = await patch(`books/${bookOrDraftId}`, formData)
   }
-  // if (bookOrDraftId != -1) {
-  // } else {
-  
-  // }
+  console.log(res)
+  if (res.ready) {
+    message.success("success!")
+    form.value = {}
+    formData = new FormData()
+    router.push({ path: '/writePublishManagement/listed' })
+  }
   window.hideLoading()
-  message.success("success!")
-  form.value = {}
-  formData = new FormData()
-  router.push({path:'/writePublishManagement/listed'})
 }
 </script>
 <template>
@@ -122,17 +121,17 @@ const goOn = async () => {
       <!-- 新上传 -->
       <div class="uploadWrap" v-show="currentType == 1">
         <el-upload action="#" :show-fileList="false" :auto-upload="false" :on-change="changeBookFile"
-          accept=".pdf, .epub, .txt">
-          <div class="bookPost">
+          accept=".pdf, .epub">
+          <div class="bookPost" :class="{ 'hasBook': form.book_name ? true : false }">
             <div>
               <img src="../assets/img/book.svg" alt="" class="coverIcon">
-              <div>{{ form.book_name || 'PDF、EPUB、TXT' }}</div>
+              <div>{{ form.book_name || 'PDF、EPUB' }}</div>
             </div>
           </div>
         </el-upload>
         <div class="tip">
           <div>Supported file formats</div>
-          <div>PDF、EPUB、TXT，File ＜ 200M</div>
+          <div>PDF、EPUB，File ＜ 200M</div>
         </div>
       </div>
       <!-- 从草稿中选取 -->
@@ -305,8 +304,6 @@ const goOn = async () => {
     .uploadWrap {
       display: flex;
 
-
-
       .bookPost {
         width: 140px;
         height: 180px;
@@ -317,6 +314,10 @@ const goOn = async () => {
         align-items: center;
         justify-content: center;
         position: relative;
+
+        &.hasBook {
+          background: #ffe1b4;
+        }
 
         .coverImg {
           position: absolute;

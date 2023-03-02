@@ -7,7 +7,9 @@ window.setLoading = () => {
   showLoading.value = true
 }
 window.hideLoading = () => {
-  showLoading.value = false
+  setTimeout(() => {
+    showLoading.value = false
+  },200)
 }
 onMounted(() => {
   setLoading()
@@ -15,7 +17,7 @@ onMounted(() => {
 </script>
 <template>
   <div class="cusLoading" v-show="showLoading">
-    <video ref="videoRef" src="../assets/video/loading.mp4" muted></video>
+    <video ref="videoRef" src="../assets/video/loading.mp4" muted loop></video>
   </div>
 </template>
 <style lang="scss" scoped>

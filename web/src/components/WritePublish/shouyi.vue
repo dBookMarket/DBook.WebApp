@@ -4,10 +4,12 @@ import { ref, watch } from "vue"
 import { get, post, del } from "../../service/http"
 import { Search, InfoFilled, SuccessFilled } from '@element-plus/icons-vue'
 import NoData from "@/components/NoData.vue"
+import router from "../../router";
 // 获取收益交易列表
 const list = ref([])
 const getTransactions = async () => {
-    const res = await get(`/transactions`)
+    window.setLoading()
+    const res = await get(`/transactions/current`)
     list.value = res.data.results
     window.hideLoading()
 }
@@ -27,8 +29,16 @@ const calcSource = (source) => {
 }
 const encate = (addr) => {
     if (addr) {
-        return addr.substr(0, 6) + "****" + addr.substr(-4, 4)
+        return addr.substr(0, 6) + "..." + addr.substr(-4, 4)
     }
+}
+// 查看作者
+const checkAuthor = (id) => {
+    router.push({ path: `/authorCenter/${id}` })
+}
+// 查看书籍
+const checkBook = (row) => {
+    router.push({ path: `/issueInfo/${row.issue.id}/display` })
 }
 </script>
 <template>
@@ -41,7 +51,7 @@ const encate = (addr) => {
             <span v-else> - </span>
         </div>
         <el-table :data="list" class="dark">
-            <el-table-column label="Event">
+            <el-table-column label="Event" width="90px">
                 <template #default="scope">
                     <div class="evenetLable">
                         <img src="../../assets/img/fabu.svg" v-if="scope.row.source === 1" alt="">
@@ -52,7 +62,7 @@ const encate = (addr) => {
             </el-table-column>
             <el-table-column label="Book" prop="">
                 <template #default="scope">
-                    {{ scope.row.issue.book.title }}
+                    <div class="hoverd" @click="checkBook(scope.row)"> {{ scope.row.issue.book.title }}</div>
                 </template>
             </el-table-column>
             <el-table-column label="Unit Price" prop="price">
@@ -63,17 +73,29 @@ const encate = (addr) => {
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column label="Quantity" prop="quantity"></el-table-column>
+            <el-table-column label="Quantity" prop="quantity" width="90px"></el-table-column>
             <el-table-column label="From" prop="" show-overflow-tooltip>
                 <template #default="scope">
-                    {{ scope.row.buyer.name || encate(scope.row.buyer.address) }}
+                    <div class="hoverd" @click="checkAuthor(scope.row.buyer.id)">
+                        {{
+                            scope.row.buyer.name ? scope.row.buyer.name + '(' + encate(scope.row.buyer.address) + ')' :
+                            encate(scope.row.buyer.address)
+                        }}
+                    </div>
+
                 </template>
             </el-table-column>
-            <el-table-column label="To" prop="to">
+            <el-table-column label="To" prop="to" show-overflow-tooltip>
                 <template #default="scope">
-                    {{ scope.row.seller.name || encate(scope.row.seller.address) }}
+                    <div class="hoverd" @click="checkAuthor(scope.row.seller.id)">
+                        {{
+                            scope.row.seller.name ? scope.row.seller.name + '(' + encate(scope.row.seller.address) + ')' :
+                            encate(scope.row.seller.address)
+                        }}
+                    </div>
                 </template>
             </el-table-column>
+            <el-table-column label="Status" prop="status" show-overflow-tooltip width="100px"></el-table-column>
             <el-table-column label="Date" prop="updated_at" show-overflow-tooltip></el-table-column>
         </el-table>
     </div>
@@ -98,5 +120,10 @@ const encate = (addr) => {
         height: 14px;
         margin-right: 10px;
     }
+}
+
+.hoverd:hover {
+    text-decoration: underline;
+    color: #7D5321;
 }
 </style>

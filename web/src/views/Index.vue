@@ -6,21 +6,16 @@ import { Search } from '@element-plus/icons-vue'
 import router from "../router/index.js"
 import { get } from "../service/http"
 import TwitterCom from "../components/TwitterVerify.vue"
-import cache from "../assets/lib/cache"
 const twitterVerifyShow = ref(false)
 const routerQuery = router.currentRoute.value.query || {}
-let userInfo = cache.get("userInfo")
-const token = cache.get('token')
-const address = cache.get('address')
-// if (userInfo && userInfo.is_verified === false && !routerQuery?.oauth_verifier && address && token) {
-//   twitterVerifyShow.value = true
-// }
 const twitterComRef = ref(null)
+const isRequesting = ref(true)
+const isAds = ref(true)
 onMounted(() => {
-  console.log(routerQuery)
-  if (routerQuery?.oauth_verifier) {
-    // twitterVerifyShow.value = true
+  if (routerQuery.oauth_verifier) {
     const { oauth_token, oauth_verifier } = routerQuery
+    twitterVerifyShow.value = true
+    // 发送tweet弹窗
     twitterComRef.value.updateAuth(oauth_token, oauth_verifier)
   }
 })
@@ -30,7 +25,7 @@ const calcText = (status) => {
     //销售中 在售
     case 'on_sale': text = '在售'; break;
     //停止销售 销毁
-    case 'off_sale': text = '销毁'; break;
+    case 'off_sale': text = ''; break;
     //未售出的 流拍
     case 'unsold': text = '流拍'; break;
     //即将发售
@@ -43,23 +38,31 @@ const viewAuthor = (item) => {
   router.push({ path: `/authorCenter/${item.issue.book.author.id}` })
 }
 const viewBook = (row) => {
-  console.log(row)
   router.push({ path: `/issueInfo/${row.id}/display` })
 }
 // 书籍列表
 const bookList = ref([])
 // 搜索列表
 const issues = async () => {
-  const res = await get("issues", { search: searchKey.value })
-  if (res && res.data && res.data.results) {
-    bookList.value = res.data.results
+  if (searchKey.value) {
+    isAds.value  = false
+    // if(isRequesting.value) return
+    isRequesting.value = true
+    const res = await get("issues", { search: searchKey.value })
+    if (res && res.data && res.data.results) {
+      bookList.value = res.data.results
+      isRequesting.value = false
+    } else {
+      bookList.value = []
+    }
   } else {
-    bookList.value = []
+    advertisements()
   }
 }
 // 默认广告列表
-const advertisementsList = ref([])
 const advertisements = async () => {
+  isAds.value  = true
+  window.setLoading()
   const res = await get("advertisements")
   if (res.data && res.data.results) {
     res.data.results.map(el => {
@@ -73,23 +76,15 @@ const advertisements = async () => {
   } else {
     bookList.value = []
   }
+  window.hideLoading()
 }
 advertisements()
-// 检查到token变化 则更新
-// window.addEventListener("setItemEvent", async function (e) {
-//   if (e.key === "userInfo") {
-//     await nextTick()
-//     userInfo = JSON.parse(e.newValue);
-//     if (userInfo.is_verified === false && !routerQuery?.oauth_verifier) {
-//       twitterVerifyShow.value = true
-//     }
-//   }
-// })
 const showVerifyPop = () => {
   twitterVerifyShow.value = true
+  twitterComRef.value.show()
 }
 const checkUser = (row) => {
-  router.push({path:'/authorCenter/'+row.book.author.id})
+  router.push({ path: '/authorCenter/' + row.book.author.id })
 }
 </script>
 <template>
@@ -98,78 +93,60 @@ const checkUser = (row) => {
       <Header @verify="showVerifyPop"></Header>
     </div>
     <div class="content">
-      <div class="search">
-        <el-input class="noBorder" v-model="searchKey" clearable placeholder="Search for author, book title..."
-          :prefix-icon="Search" @input="issues" />
-        <div class="tip" v-show="searchKey">The search does not guarantee the authenticity of the author's identity,
-          please check the author's Twitter identity before purchasing
-          the collection</div>
-        <div class="tip ads" v-show="!searchKey">
-          <span>Ads</span>
-          <img src="../assets/img/252.svg" alt="">
-        </div>
-      </div>
-      <div class="cardList">
-        <div class="card" v-for="item in bookList" :key="item.id">
-          <div class="leftC">
-            <el-image class="postImg" :src="item.book.cover_url" @click="viewBook(item)"></el-image>
-            <div :class="['tip', item.status]">
-              {{ calcText(item.status) }}
-            </div>
+      <div class="searchContain" :class="{ 'moreData': bookList.length > 2 ? true : false }">
+        <img class="logoImg" src="../assets/img/dbook.svg" alt="" v-show="!searchKey || bookList.length == 0">
+        <div class="search">
+          <el-input class="noBorder" v-model="searchKey" clearable placeholder="Search for author, book title..."
+            :prefix-icon="Search" @change="issues" />
+          <div class="tip" v-show="searchKey && bookList.length > 0">The search does not guarantee the authenticity of the
+            author's identity,
+            please check the author's Twitter identity before purchasing
+            the collection</div>
+          <div class="tip" v-show="searchKey && bookList.length == 0 && isRequesting === false">未搜索到内容</div>
+          <div class="tip ads" v-show="!searchKey && bookList.length && isAds">
+            <span>Ads</span>
+            <img src="../assets/img/252.svg" alt="">
           </div>
-          <!-- <div class="rightC">
-              <div class="cTop" @click="viewAuthor(item)">
-                <el-image class="ava" :src="item.book.author.avatar_url"></el-image>
-                <span class="name">{{ item.book.author.name || 'anonymous' }}</span>
+        </div>
+        <div class="cardList" v-if="bookList.length">
+          <div class="card" v-for="item in bookList" :key="item.id">
+            <div class="leftC">
+              <el-image class="postImg" :src="item.book.cover_url" @click="viewBook(item)"></el-image>
+              <div :class="['tip', item.status]" v-if="item.status !== 'off_sale'">
+                {{ calcText(item.status) }}
+              </div>
+            </div>
+            <div class="rightC">
+              <div class="cTop">
+                <el-image class="ava" :src="item.book.author.avatar_url" @click="checkUser(item)"></el-image>
+                <span class="name" @click="checkUser(item)">{{ item.book.author.name }}</span>
               </div>
               <div class="cCon">
                 {{ item.book.title }}
               </div>
-              <div class="cBottom">
+              <div class="presaleClock" v-if="item.status == 'pre_sale'">
+                <img src="../assets/img/clock.svg" alt="">
+                <span>{{ item.published_at }}</span>
+              </div>
+              <div class="cBottom" v-if="item.status == 'pre_sale'">
+                <div class="cBc">
+                  <div class="label">listed price</div>
+                  <div class="value">{{ item.price }}</div>
+                </div>
+                <div class="cBc">
+                  <div class="label">RN</div>
+                  <div class="value">{{ item.buy_limit }}</div>
+                </div>
+              </div>
+              <div class="cBottom" v-else>
                 <div class="cBc">
                   <div class="label">Floor price</div>
-                  <div class="value">{{ item.n_circulations }} USDC</div>
+                  <div class="value">{{ item.price }}</div>
                 </div>
                 <div class="cBc">
-                  <div class="label">Circulation</div>
-                  <div class="value">{{ item.n_circulations }}</div>
+                  <div class="label">owners/burn</div>
+                  <div class="value">{{ item.n_circulations }}/{{ item.quantity - item.n_circulations }}</div>
                 </div>
-                <div class="cBc">
-                  <div class="label">Destruction</div>
-                  <div class="value">{{ item.duration }} min</div>
-                </div>
-              </div>
-            </div> -->
-          <div class="rightC">
-            <div class="cTop">
-              <el-image class="ava" :src="item.book.author.avatar_url"  @click="checkUser(item)"></el-image>
-              <span class="name"  @click="checkUser(item)">{{ item.book.author.name }}</span>
-            </div>
-            <div class="cCon">
-              {{ item.book.title }}
-            </div>
-            <div class="presaleClock" v-if="item.status == 'pre_sale'">
-              <img src="../assets/img/clock.svg" alt="">
-              <span>{{ item.published_at }}</span>
-            </div>
-            <div class="cBottom" v-if="item.status == 'pre_sale'">
-              <div class="cBc">
-                <div class="label">listed price</div>
-                <div class="value">{{ item.price }}</div>
-              </div>
-              <div class="cBc">
-                <div class="label">RN</div>
-                <div class="value">{{ item.buy_limit }}</div>
-              </div>
-            </div>
-            <div class="cBottom" v-else>
-              <div class="cBc">
-                <div class="label">Floor price</div>
-                <div class="value">{{ item.price }}</div>
-              </div>
-              <div class="cBc">
-                <div class="label">owners/burn</div>
-                <div class="value">{{ item.n_circulations }}/{{ item.quantity - item.n_circulations }}</div>
               </div>
             </div>
           </div>
@@ -258,25 +235,47 @@ const checkUser = (row) => {
     }
   }
 
-  .content {
-    min-height: calc(100vh - 61px - 260px);
-  }
+  // .content {
+  //  
+  // }
 
   .headerWrap {
     background: #ffe1b4;
   }
 
   .content {
-    width: 100%;
     width: $contentWidth;
     min-width: $contentMinWidth;
-    flex: 1;
+    // min-height: calc(100vh - 61px - 260px);
+    min-height: 72.5vh;
+    // flex: 1;
     margin: 0 auto;
+    display: flex;
+    align-items: center;
+
+
+    .searchContain {
+      width: 100%;
+      text-align: center;
+      margin-top: -100px;
+
+      .logoImg {
+        display: inline-block;
+        margin: 0 auto 50px auto;
+        width: 350px;
+        height: auto;
+      }
+
+      &.moreData {
+        margin: 70px 0 0 0;
+      }
+    }
 
     .search {
-      margin: 50px 0 0 0;
+      // margin: 50px 0 0 0;
       width: 100%;
       position: relative;
+      text-align: left;
 
       .el-input {
         width: 100%;
@@ -317,6 +316,7 @@ const checkUser = (row) => {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
+      text-align: left;
 
       .card {
         width: 49%;

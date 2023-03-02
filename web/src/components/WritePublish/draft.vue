@@ -10,6 +10,7 @@ import message from "../../assets/lib/resetMessage"
 const draftIndex = ref()
 const draftList = ref([])
 const getDraft = async () => {
+    window.setLoading()
     const res = await get(`/drafts`)
     draftList.value = res.data.results
     window.hideLoading()
