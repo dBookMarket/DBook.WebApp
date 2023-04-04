@@ -1,0 +1,21 @@
+{
+    "editor.formatOnSave": true,
+    "vetur.format.defaultFormatterOptions": {
+        "js-beautify-html": {
+            "wrap_attributes": "aligned-multiple"
+        },
+        "prettyhtml": {
+            "printWidth": 150,
+            "singleQuote": false,
+            "wrapAttributes": false,
+            "sortAttributes": false
+        }
+    },
+    "vetur.format.defaultFormatter.html": "js-beautify-html",
+    "vetur.format.defaultFormatter.js": "vscode-typescript",
+    "vue3snippets.enable-compile-vue-file-on-did-save-code": false,
+    "files.associations": {
+        // extension name : html
+        // "*.vue": "html",
+    }
+}

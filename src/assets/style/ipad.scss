@@ -1,0 +1,27 @@
+@media screen and (max-width: 1280px) and (min-width: 850px) {
+    // 我的收藏
+    .main.myCollection {
+        .content {
+            .cardOperaListed {
+                .cardWrap {
+                    .cardOperaItem {
+                        .card_left {
+                            // margin-right: 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .cardWrap {
+        .cardOperaItem {
+            width: 45% !important;
+        }
+    }
+    .cardOperaListed {
+        .cardOperaItem {
+            width: 45% !important;
+        }
+    }
+}

@@ -1,0 +1,417 @@
+// 移动端适配
+$contentWidth: 90%;
+$contentMinHeight: calc(100vh - var(--browser-address-bar, 0px) - 65px - 170px);
+$contentMinHeight2: calc(100vh - var(--browser-address-bar, 0px) - 179px - 455px);
+$contentMinHeight3: calc(100vh - var(--browser-address-bar, 0px) - 65px - 170px - 144px);
+
+@media screen and (max-width: 850px) {
+    :root {
+        font-size: 14px;
+        line-height: 22px;
+    }
+
+    .main {
+        // 书籍卡片样式。
+        .cardList_ .card .card_top .leftC .postImg {
+            width: 140px;
+            height: 180px;
+        }
+
+        .cardList_.grid2,
+        .cardList_.grid3 {
+            .card {
+                width: 100%;
+                margin-bottom: 35px;
+            }
+        }
+
+        .headerWrap,
+        .headerWrapImg {
+            .cusHeader {
+                width: $contentWidth;
+            }
+        }
+
+        .content {
+            margin: 0 auto;
+
+            // 搜索框离上边的距离
+            .searchContain.moreData {
+                margin: 40px 0 0 0;
+            }
+
+            width: $contentWidth;
+            min-height: $contentMinHeight;
+        }
+    }
+
+    // 带banner的背景图
+    .bannerHeader {
+        .iconBulk.web {
+            display: none;
+        }
+
+        .iconBulk.mobile {
+            display: block;
+            width: 100%;
+            padding: 0 28% 0 85px;
+            // margin-top: 20px;
+            margin-bottom: 20px;
+
+            .el-image,
+            .stepLine {
+                margin-right: 10px;
+            }
+        }
+
+        .headerWrapImg {
+            .authorHeader {
+                width: $contentWidth;
+                margin: 42px auto 0 auto;
+                padding-bottom: 10px;
+                flex-wrap: wrap;
+
+                > div {
+                    width: 100%;
+                    padding-left: 85px;
+
+                    .authoreName,
+                    .address {
+                        font-size: 13px;
+                    }
+                }
+            }
+        }
+
+        .authorDescription {
+            .description {
+                width: $contentWidth;
+                padding-left: 85px;
+            }
+
+            .autorAvatar {
+                width: 77px;
+                height: 77px;
+                left: 0;
+                top: -48px;
+            }
+
+            .numbersList {
+                padding: 0 0 0 0;
+                flex-wrap: wrap;
+
+                .numberCard {
+                    width: 33%;
+                    margin-bottom: 10px;
+                }
+
+                .stepLine {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    // 导航条
+    .navigator {
+        width: $contentWidth;
+        height: 43px;
+        line-height: 43px;
+        background: #fff7ec;
+        margin: 20px auto 30px auto;
+        padding-left: 10px;
+        position: relative;
+
+        span {
+            display: inline-block;
+            font-size: 13px;
+            color: #42392b;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        span.actived {
+            position: relative;
+
+            &::after {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                content: "";
+                width: 110%;
+                height: 2px;
+                background: #42392b;
+                border-radius: 1px;
+            }
+        }
+
+        .writingBookBtn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 115px;
+            height: 43px;
+            background: #42392b;
+            font-size: 15px;
+            font-family: PingFang SC;
+            color: #fff7ec;
+            text-align: center;
+            margin-right: 0;
+        }
+    }
+
+    // 个人设置
+    .main.personSetting {
+        .content {
+            .title_ {
+                margin: 29px 0 25px 0;
+            }
+
+            .cusInput {
+                font-size: 13px;
+            }
+
+            .twitterWrap {
+                .desWrap {
+                    span {
+                        font-size: 17px;
+                    }
+
+                    img {
+                        margin: 0 16px 0 16px;
+                    }
+                }
+            }
+        }
+    }
+
+    // issue详情页面设置
+    .main.issueContent {
+        .content {
+            padding-top: 20px;
+
+            .issueInfo .bookPost {
+                width: 100%;
+                height: 246px;
+                margin-bottom: 20px;
+            }
+
+            .line2 {
+                margin: 20px 0;
+            }
+
+            .line3 {
+                margin-bottom: 20px;
+            }
+
+            .line4 {
+                margin-bottom: 20px;
+            }
+
+            .line5 {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .Publication {
+                // zoom: 0.7;
+                .left_3.web {
+                    display: none !important;
+                }
+                .topWrap {
+                    zoom: 0.8;
+                }
+                .cardBottomLeft {
+                    zoom: 0.9;
+                    flex-wrap: wrap;
+                    .left_3_mobile {
+                        width: 100%;
+                        flex-direction: row !important;
+                        display: flex;
+                        justify-content: space-between;
+                        > div {
+                            width: 50%;
+                        }
+                        .value_ {
+                            text-align: right;
+                        }
+                    }
+                    .label_1,
+                    .value_1,
+                    .label_2,
+                    .value_2 {
+                        margin-bottom: 10px;
+                    }
+                }
+
+                // .topWrap {
+                //     padding-top: 80px;
+
+                //     .clockTip {
+                //         // margin-right: 10px;
+                //         font-size: 15px;
+                //     }
+
+                .timeClock {
+                    zoom: 0.8;
+                    right: 5px;
+                }
+                // }
+
+                // .cardBottom {
+                //     .cardBottomLeft {
+                //         flex-wrap: wrap;
+                //     }
+
+                //     .left_1,
+                //     .left_2,
+                //     .left_3,
+                //     .left_4 {
+                //         width: 40%;
+                //     }
+
+                .cardBottomRight {
+                    span {
+                        width: 100%;
+                        text-align: center;
+                        margin-top: 20px;
+                        margin: 0 !important;
+                    }
+                }
+                // }
+            }
+        }
+    }
+
+    // 作者中心
+    .main.authorView {
+        .authorDescription,
+        .fullContentWidth {
+            width: $contentWidth;
+        }
+    }
+
+    // 图书发布Issue管理
+    .main.writePublishManage {
+        .content {
+            min-height: $contentMinHeight2;
+        }
+
+        .authorDescription {
+            width: $contentWidth;
+        }
+
+        .cardOperaListed.listed {
+            .cardOperaItem {
+                width: 100% !important;
+            }
+        }
+    }
+
+    // 我的收藏
+    .main.myCollection {
+        .authorDescription {
+            width: $contentWidth;
+        }
+        .content {
+            min-height: $contentMinHeight2;
+
+            .cardOperaListed {
+                justify-content: space-between;
+
+                .cardWrap {
+                    .cardOperaItem {
+                        width: 100%;
+
+                        .card_left {
+                            margin-right: 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // 我的关注
+    .main.concern {
+        .content {
+            min-height: $contentMinHeight3;
+        }
+        .title {
+            width: $contentWidth;
+        }
+    }
+    // 底部
+    .footerMain {
+        .ftLeft,
+        .ftRight {
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer_left_1,
+        .footer_left_2 {
+            left: 0;
+        }
+
+        .footer_right_1,
+        .footer_right_2 {
+            right: 0;
+        }
+    }
+
+    .downloadapp {
+        width: $contentWidth;
+        height: 39% !important;
+        z-index: 999;
+        .download {
+            ._download {
+                zoom: 0.6;
+            }
+            ._butflex {
+                ._butitem {
+                    width: 50%;
+                    height: 90px;
+                    zoom: 0.6;
+                    margin: 0 auto;
+                    border-radius: 100px !important;
+                    margin-bottom: 20px;
+                    ._apple {
+                        width: 43px;
+                        height: 47px;
+                    }
+                    ._google {
+                        width: 40px;
+                        height: 45rem;
+                    }
+                }
+            }
+        }
+        ._qrcode {
+            width: 65px !important;
+            height: 65px;
+            margin: 0 auto;
+            border-radius: 120px !important;
+            ._qrcodeimg {
+                zoom: 0.6;
+                // border-radius: 100px !important;
+                // overflow: hidden;
+                // width: 100% !important;
+                // display: none;
+            }
+            ._bigqrcode {
+                width: 200% !important;
+                top: 90px !important;
+                left: 50% !important;
+                transform: translateX(-50%);
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 20% !important;
+                    overflow: hidden;
+                }
+            }
+        }
+    }
+}

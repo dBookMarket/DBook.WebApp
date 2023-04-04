@@ -1,0 +1,331 @@
+// web端适配
+$contentMinWidth: 915px;
+$contentWidth: 70%;
+$navigatorWidth: 70%;
+$contentMaxWidth: 900px;
+$contentMinHeight: calc(100vh - var(--browser-address-bar, 0px) - 65px - 170px);
+$contentMinHeight2: calc(100vh - var(--browser-address-bar, 0px) - 179px - 117px - 43px - 170px - 40px);
+$contentMinHeight3: calc(100vh - var(--browser-address-bar, 0px) - 65px - 170px - 144px);
+
+@media screen and (min-width: 850px) {
+    :root {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .main {
+        // 书籍卡片样式。
+        .cardList_ .card .card_top .leftC .postImg {
+            width: 140px;
+            height: 180px;
+        }
+
+        // 二等分
+        .cardList_.grid2 {
+            justify-content: space-between;
+
+            .card {
+                width: 45%;
+            }
+        }
+
+        // 三等分
+        .cardList_.grid3 {
+            .card {
+                width: 31%;
+                margin-right: 2%;
+                margin-bottom: 35px;
+            }
+        }
+
+        .headerWrap,
+        .headerWrapImg {
+            .cusHeader {
+                width: $contentWidth;
+                max-width: $contentMaxWidth;
+            }
+        }
+
+        .content {
+            width: $contentWidth;
+            max-width: $contentMaxWidth;
+            min-height: $contentMinHeight;
+            margin: 0 auto;
+
+            // 搜索框离上边的距离
+            .searchContain.moreData {
+                margin: 70px 0 0 0;
+            }
+        }
+    }
+
+    // 带banner的背景图
+    .bannerHeader {
+        .iconBulk.web {
+            display: block;
+        }
+
+        .iconBulk.mobile {
+            display: none;
+        }
+
+        .authorHeader,
+        .authorDescription {
+            width: $contentWidth;
+            max-width: $contentMaxWidth;
+        }
+
+        .authorHeader {
+            display: flex;
+            justify-content: space-between;
+            margin: 82px auto 0 auto;
+
+            > div {
+                padding-left: 150px;
+            }
+
+            .authoreName {
+                font-size: 22px;
+            }
+
+            .address {
+                font-size: 15px;
+            }
+
+            .iconBulk {
+                .el-image,
+                .stepLine {
+                    margin-left: 25px;
+                }
+            }
+        }
+
+        .authorDescription {
+            padding-left: 150px;
+
+            .autorAvatar {
+                width: 117px;
+                height: 117px;
+                left: 0;
+                top: -48px;
+            }
+        }
+    }
+
+    // 导航条
+    .navigator {
+        width: $contentWidth;
+        max-width: $contentMaxWidth;
+        height: 43px;
+        line-height: 43px;
+        background: #fff7ec;
+        margin: 20px auto 30px auto;
+        padding-left: 24px;
+        position: relative;
+
+        span {
+            display: inline-block;
+            font-size: 15px;
+            color: #42392b;
+            margin-right: 51px;
+            cursor: pointer;
+        }
+
+        span.actived {
+            position: relative;
+
+            &::after {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                content: "";
+                width: 110%;
+                height: 2px;
+                background: #42392b;
+                border-radius: 1px;
+            }
+        }
+
+        .writingBookBtn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 115px;
+            height: 43px;
+            background: #42392b;
+            font-size: 15px;
+            font-family: PingFang SC;
+            color: #fff7ec;
+            text-align: center;
+            margin-right: 0;
+        }
+    }
+
+    // issue详情页面设置
+    .main.issueContent {
+        .content {
+            padding-top: 40px;
+
+            .issueInfo {
+                display: flex;
+                margin-bottom: 41px;
+
+                .bookPost {
+                    width: 189px;
+                    height: 246px;
+                    margin-right: 25px;
+                }
+            }
+
+            .line5 {
+                width: 125px;
+            }
+
+            .Publication {
+                .left_3_mobile {
+                    display: none !important;
+                }
+                .clockTip {
+                    margin-right: 26px;
+                    font-size: 18px;
+                }
+
+                .topWrap {
+                    .timeClock {
+                        right: 15px;
+                    }
+                }
+            }
+
+            .cardBottom {
+                display: flex;
+                justify-content: space-between;
+
+                .cardBottomLeft {
+                    width: 60%;
+                }
+
+                .cardBottomRight {
+                }
+            }
+        }
+    }
+
+    // 个人设置
+    .main.personSetting {
+        .content {
+            .title_ {
+                margin: 49px 0 25px 0;
+            }
+
+            .cusInput {
+                font-size: 13px;
+            }
+
+            // 个人设置
+            .twitterWrap {
+                .desWrap {
+                    span {
+                        font-size: 18px;
+                    }
+
+                    img {
+                        margin: 0 16px 0 82px;
+                    }
+                }
+            }
+        }
+    }
+
+    // 作者中心
+    .main.authorView {
+    }
+
+    // 图书发布Issue管理
+    .main.writePublishManage {
+        .content {
+            min-height: $contentMinHeight2;
+        }
+    }
+
+    // 我的收藏
+    .main.myCollection {
+        .navigator {
+            width: $contentWidth;
+            max-width: $contentMaxWidth;
+        }
+
+        .cardOperaListed {
+            .cardOperaItem {
+                .card_left {
+                    margin-right: 20px;
+                }
+            }
+        }
+    }
+
+    // 我的关注
+    .main.concern {
+        .content {
+            min-height: $contentMinHeight3;
+        }
+        .title {
+            width: $contentWidth;
+            max-width: $contentMaxWidth;
+        }
+    }
+
+    // 表格
+    .fullContentWidth {
+        width: $contentWidth;
+        max-width: $contentMaxWidth;
+    }
+
+    // 底部
+    .footerMain {
+        .ftLeft,
+        .ftRight {
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer_left_1 {
+            left: -319px;
+        }
+
+        .footer_left_2 {
+            left: -165px;
+        }
+
+        .footer_right_1 {
+            right: -125px;
+        }
+
+        .footer_right_2 {
+            right: -343px;
+        }
+    }
+    .downloadapp {
+        width: 80%;
+        .download {
+            ._butflex {
+                display: flex;
+                justify-content: space-evenly;
+                ._butitem {
+                    width: 270px;
+                    height: 90px;
+                    ._apple {
+                        width: 43px;
+                        height: 47px;
+                    }
+
+                    ._google {
+                        width: 40px;
+                        height: 45rem;
+                    }
+                }
+            }
+        }
+    }
+}
