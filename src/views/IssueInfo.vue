@@ -9,12 +9,39 @@ import message from "../assets/lib/resetMessage";
 import moment from "moment";
 import NoData from "../components/NoData.vue";
 import wallet from "../service/wallet";
+<<<<<<< HEAD:src/views/IssueInfo.vue
 import walletMobile from "../service/walletMobile";
 import * as echarts from "echarts";
 import cache from "../assets/lib/cache"
 import { ElNotification } from 'element-plus'
 import { IsPC } from "../assets/lib/util"
 const bookId = router.currentRoute.value.params.id;
+=======
+import * as echarts from "echarts";
+// import VueMeta from 'vue-meta'
+// 动态修改twitter card meta
+// const { generate } = VueMeta
+// const rawMetaInfo = {
+//   meta:
+//     [{ charset: 'utf-8' },
+//     { name: 'twitter:card', content: 'summary' },
+//     { name: 'twitter:title', content: 'Vue Social Cards Example' },
+//     { name: 'twitter:description', content: 'Vue sample site showing off Twitter and Facebook Cards.' },
+//     // image must be an absolute path
+//     { name: 'twitter:image', content: this.logo },
+//     // Facebook OpenGraph
+//     { property: 'og:title', content: 'Vue Social Cards Example' },
+//     { property: 'og:site_name', content: 'Vue Example' },
+//     { property: 'og:type', content: 'website' },
+//     { property: 'og:image', content: this.logo },
+//     { property: 'og:description', content: 'Vue sample site showing off Twitter and Facebook Cards.' }
+//     ]
+// }
+// const metaInfo = generate(rawMetaInfo /*, yourOptions*/)
+// const HEAD = metaInfo.script.text() + metaInfo.meta.text()
+
+
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
 let published_at, off_at, myChart, timer;
 const bookInfo = ref({ book: { author: {} }, issue: {}, token: {} });
 const countTime = ref({
@@ -38,10 +65,16 @@ const calcCountTime = () => {
         countTime.value.seconds =
         "00";
       // 倒计时结束，刷新数据
+<<<<<<< HEAD:src/views/IssueInfo.vue
       window.setLoading();
       setTimeout(() => {
         getBookIssue(bookId);
       }, 3000)
+=======
+      setTimeout(() => {
+        getBookIssue(bookId);
+      }, 1000)
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
     } else {
       const durations = moment.duration(seconds, "seconds");
       countTime.value.days = durations.days();
@@ -56,6 +89,7 @@ const calcOffTime = () => {
   const nowMoment = moment();
   if (off_at) {
     const seconds = off_at.diff(nowMoment, "seconds");
+<<<<<<< HEAD:src/views/IssueInfo.vue
     if (seconds < 0) {
       countTime.value.days =
         countTime.value.hours =
@@ -65,6 +99,9 @@ const calcOffTime = () => {
       message.error("Abnormal book status")
       clearInterval(timer)
     } else if (seconds == 0) {
+=======
+    if (seconds == 0) {
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
       // 清除倒计时
       clearInterval(timer);
       countTime.value.days =
@@ -73,10 +110,16 @@ const calcOffTime = () => {
         countTime.value.seconds =
         "00";
       // 倒计时结束，刷新数据
+<<<<<<< HEAD:src/views/IssueInfo.vue
       window.setLoading();
       setTimeout(() => {
         getBookIssue(bookId);
       }, 3000)
+=======
+      setTimeout(() => {
+        getBookIssue(bookId);
+      }, 1000)
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
     } else {
       const durations = moment.duration(seconds, "seconds");
       countTime.value.days = durations.days();
@@ -95,7 +138,10 @@ const getBookIssue = async (id) => {
     .format("YYYY-MM-DD HH:mm:ss");
   res.data.published_at = published_at
   bookInfo.value = res.data;
+<<<<<<< HEAD:src/views/IssueInfo.vue
   console.log(bookInfo.value)
+=======
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
   // 获取二级市场挂单列表
   getTradesList();
   if (bookInfo.value.status == "pre_sale") {
@@ -121,6 +167,10 @@ const getBookIssue = async (id) => {
     window.hideLoading();
   }, 1000);
 };
+<<<<<<< HEAD:src/views/IssueInfo.vue
+=======
+const bookId = router.currentRoute.value.params.id;
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
 const issueType = ref("");
 issueType.value = router.currentRoute.value.params.type;
 if (bookId) {
@@ -137,7 +187,12 @@ onUnmounted(() => {
   clearInterval(timer);
 });
 // 作者
+<<<<<<< HEAD:src/views/IssueInfo.vue
 const goAuthor = (userId) => {
+=======
+const goAuthor = () => {
+  const userId = bookInfo.value.book.author.id;
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
   router.push({ path: `/authorCenter/${userId}` });
 };
 // 二手市场挂单列表
@@ -181,7 +236,11 @@ const getTrend = async () => {
     },
     series: [
       {
+<<<<<<< HEAD:src/views/IssueInfo.vue
         data: res.data.prices,
+=======
+        data: res.data.quantities,
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
         type: "line",
         areaStyle: {},
       },
@@ -230,8 +289,13 @@ const changeNaviType = (type) => {
   if (type === "Trend") getTrend();
 };
 const calcSource = (source) => {
+<<<<<<< HEAD:src/views/IssueInfo.vue
   if (source == 1) return "issue";
   if (source == 2) return "trade";
+=======
+  if (source == 1) return "首发";
+  if (source == 2) return "二手";
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
 };
 // 立即购买
 const maxQuantity = ref(1);
@@ -239,6 +303,7 @@ let currentBuyLevel;
 const buyForm = ref({ quantity: 1 });
 let currentBuyInfo = null;
 const buyTips = ref(false);
+<<<<<<< HEAD:src/views/IssueInfo.vue
 
 const loginUser = cache.get("userInfo")
 const showBuyTips = (level, secondData) => {
@@ -250,11 +315,22 @@ const showBuyTips = (level, secondData) => {
   const { quantity, n_circulations, buy_limit } = bookInfo.value;
   // buyForm.value.quantity = 1
   if (level === 1) {
+=======
+const showBuyTips = (level, secondData) => {
+  const { quantity, n_circulations, buy_limit } = bookInfo.value;
+  // buyForm.value.quantity = 1
+  if (level === 1) {
+    console.log(quantity - n_circulations > buy_limit);
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
     if (quantity - n_circulations > buy_limit) {
       maxQuantity.value = buy_limit;
     } else {
       maxQuantity.value = quantity - n_circulations;
     }
+<<<<<<< HEAD:src/views/IssueInfo.vue
+=======
+    console.log("maxQuantity.value", maxQuantity.value);
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
   }
   if (level === 2) {
     maxQuantity.value = quantity;
@@ -264,6 +340,7 @@ const showBuyTips = (level, secondData) => {
   buyTips.value = true;
 };
 const buyNow = async () => {
+<<<<<<< HEAD:src/views/IssueInfo.vue
   const params = { trade: bookInfo.value.trade.id, quantity: buyForm.value.quantity };
   let walletOk = false;
   const { block_chain, currency } = bookInfo.value.token
@@ -284,6 +361,56 @@ const buyNow = async () => {
         window.hideLoading()
         return
       }
+=======
+  console.log(bookInfo.value);
+  const params = {
+    trade: bookInfo.value.trade.id,
+    quantity: buyForm.value.quantity,
+  };
+  let walletOk = false;
+  // 唤起钱包 并 签名
+  // console.log("二级市场售卖用户数据", currentBuyInfo.user)
+  // console.log("bookInfo", bookInfo.value)
+  const block_chain = bookInfo.value.token.block_chain;
+  const currency = bookInfo.value.token.currency;
+  const walletInstance = new wallet(block_chain);
+  console.log(walletInstance);
+  const provider = await walletInstance.connectWeb3();
+  const price = bookInfo.value.price;
+  const amount = buyForm.value.quantity;
+  console.log("amount", amount)
+  if (currentBuyLevel === 1) {
+    // 首发
+    // 用户购买首发书籍流程
+
+    // Step 1，调用platform合约payFirstTrade()转账给平台钱包，若成功，转step 2；
+    // Step 2，调用transaction接口购买书籍。
+
+    if (provider) {
+      const signer = walletInstance.getSigner(provider);
+
+      const is_approve = await walletInstance.allowance(
+        signer,
+        block_chain,
+        currency.toLowerCase()
+      );
+      console.log("is_approve", is_approve == 0);
+      console.log("is_approve", is_approve);
+      // if (is_approve == 0) {
+      const transactions = await walletInstance.approve(
+        signer,
+        block_chain,
+        currency.toLowerCase()
+      );
+      console.log(transactions);
+      // }
+
+      const res = await walletInstance.payFirstTrade(amount, price, signer);
+      console.log(res);
+      walletOk = true;
+    } else {
+      message.warning("the provider is empty");
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
     }
 
 
@@ -330,6 +457,7 @@ const buyNow = async () => {
     walletOk = true;
   }
   if (currentBuyLevel === 2) {
+<<<<<<< HEAD:src/views/IssueInfo.vue
     // 二级市场
     params.status = ""; //一级市场不需要, 二级市场根据链上交易状态定
     params.hash = ""; //一级市场不需要, 二级市场根据链上交易状态定
@@ -337,14 +465,61 @@ const buyNow = async () => {
       transactionRes = await walletInstance.trade(
         signer,
         block_chain,
+=======
+    // 二手
+    params.status = ""; //一级市场不需要, 二级市场根据链上交易状态定
+    params.hash = ""; //一级市场不需要, 二级市场根据链上交易状态定
+    // 用户购买二手书籍
+    // Step 1，调用usdc合约approve()授权购买额度给platform合约，若成功，转step2；
+    // Step 2，调用platform合约trade()进行交易，若成功，转step 3； 1
+    // Step 3，调用transaction接口购买书籍。
+
+    if (provider) {
+      const signer = walletInstance.getSigner(provider);
+      console.log("is_approve--currency", currency);
+      let free = await walletInstance.getFee(
+        signer,
+        bookInfo.value.token.block_chain
+      );
+      console.log("free", amount);
+      // const is_approve = await walletInstance.allowance(
+      //   signer,
+      //   bookInfo.value.token.block_chain,
+      //   currency.toLowerCase()
+      // );
+
+      // if (is_approve == 0) {
+      const transactions = await walletInstance.approve(
+        signer,
+        bookInfo.value.token.block_chain,
+        currency.toLowerCase()
+      );
+      console.log(transactions);
+      // }
+      const transaction = await walletInstance.trade(
+        signer,
+        bookInfo.value.token.block_chain,
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
         currentBuyInfo.user.address,
         bookInfo.value.token.id,
         amount,
         "0x1234",
         currentBuyInfo.price,
       );
+<<<<<<< HEAD:src/views/IssueInfo.vue
     } else {
       transactionRes = await walletInstance.tradev2(signer, block_chain, currentBuyInfo.user.address, bookInfo.value.token.id, amount, "0x1234", currentBuyInfo.price)
+=======
+      console.log(transaction);
+      if (!transaction || !transaction.status) return
+      // params.status = transaction.status == 1 ? 'SUCCESS':'FAILURE';
+      params.status = 'SUCCESS';
+      params.hash = transaction.transactionHash;
+      params.trade = currentBuyInfo.id;
+      walletOk = true;
+    } else {
+      message.warning("the provider is empty");
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
     }
     if (!transactionRes || !transactionRes.status) return
     // params.status = transaction.status == 1 ? 'SUCCESS':'FAILURE';
@@ -354,6 +529,7 @@ const buyNow = async () => {
     walletOk = true;
   }
   if (walletOk) {
+<<<<<<< HEAD:src/views/IssueInfo.vue
     window.setLoading()
     const res = await post("/transactions", params);
     if (res.ready) {
@@ -368,6 +544,13 @@ const buyNow = async () => {
         type: 'warning',
         duration: 0
       })
+=======
+    const res = await post("/transactions", params);
+    console.log(res)
+    if (res.ready) {
+      message.success("success");
+      // 购买成功，刷新数据
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
       getBookIssue(bookId);
     }
   }
@@ -381,6 +564,7 @@ const addWish = async () => {
   } else {
     res = await post("/wishlists", { issue: bookInfo.value.id });
   }
+<<<<<<< HEAD:src/views/IssueInfo.vue
   if (res && res.ready) {
     bookInfo.value.is_wished = !bookInfo.value.is_wished;
     message.success("success");
@@ -421,7 +605,34 @@ const checkDestryLog = () => {
   }
   if (block_chain === 'filecoin') {
     window.open(`https://hyperspace.filfox.info/en/tx/${destroy_log}`)
+=======
+  if (res.ready) {
+    bookInfo.value.is_wished = !bookInfo.value.is_wished;
+    message.success("success");
+    buyTips.value = false;
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
   }
+};
+// 添加日历
+const addCalender = () => {
+  // dates=20230827T101500/20230827T174500
+  const { title } = bookInfo.value.book;
+  const dates_start = moment(bookInfo.value.published_at).subtract(15, 'minutes').format("YYYYMMDDTHHmmss")
+  const dates_end = moment(bookInfo.value.published_at).format("YYYYMMDDTHHmmss")
+  const ctz = Intl.DateTimeFormat().resolvedOptions().timeZone // Asia/Shanghai
+  const text = `${title} PRESALE`
+  const location = `${title}+published_at+${published_at}`
+  const details = `The rare edition book you want to buy ${title} will go on sale in 15 minutes.`
+  // const uid = "850a6dc1-5413-411b-9376-1b878c10c18c"
+  window.open(`https://calendar.google.com/calendar/u/0/r/eventedit?&dates=${dates_start}/${dates_end}&ctz=${ctz}&text=${text}&location=${location}&details=${details}`)
+}
+// 查看作者
+const checkAuthor = (id) => {
+    router.push({ path: `/authorCenter/${id}` })
+}
+// 查看书籍
+const checkBook = (row) => {
+    router.push({ path: `/issueInfo/${row.issue.id}/display` })
 }
 </script>
 <template>
@@ -454,6 +665,7 @@ const checkDestryLog = () => {
             </div>
           </div>
           <div class="line2">
+<<<<<<< HEAD:src/views/IssueInfo.vue
             <span class="author" @click="goAuthor(bookInfo.book.author.id)">
               {{ bookInfo.book.author.name || encate(bookInfo.book.author.address) }}</span>
             <span class="address" @click="goAuthor(bookInfo.book.author.id)">{{
@@ -462,6 +674,17 @@ const checkDestryLog = () => {
           </div>
           <div class="line3">
             {{ bookInfo.book.desc || "The author left no description." }}
+=======
+            <span class="author" @click="goAuthor">{{
+              bookInfo.book.author.name
+            }}</span>
+            <span class="address">{{
+              encate(bookInfo.book.author.address)
+            }}</span>
+          </div>
+          <div class="line3" :title="bookInfo.book.desc || '什么也没有留下'">
+            {{ bookInfo.book.desc || "什么也没有留下" }}
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
           </div>
           <div class="line4">
             <img src="../assets/img/site_white.svg" alt="" @click="goLink(bookInfo.book.author.website_url)" />
@@ -528,12 +751,20 @@ const checkDestryLog = () => {
               <div class="value_1">
                 {{ bookInfo.price || 0 }} {{ bookInfo.token?.currency }}
               </div>
+<<<<<<< HEAD:src/views/IssueInfo.vue
               <div class="label_2">Purchase / Person</div>
+=======
+              <div class="label_2">purchase/person</div>
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
               <div class="value_2">{{ bookInfo.buy_limit || "-" }}</div>
             </div>
             <div class="left_3 web">
               <div class="label_1">Public Chain</div>
+<<<<<<< HEAD:src/views/IssueInfo.vue
               <div class="value_">{{ bookInfo?.token?.block_chain }}</div>
+=======
+              <div class="value_">{{ bookInfo?.token?.currency }}</div>
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
             </div>
             <div class="left_4">
               <div class="label_1">Supply time range</div>
@@ -547,11 +778,18 @@ const checkDestryLog = () => {
           </div>
           <div class="cardBottomRight" v-if="bookInfo.status === 'on_sale'">
             <span class="selloutBtn" v-if="bookInfo.quantity - bookInfo.n_circulations == 0">sellout</span>
+<<<<<<< HEAD:src/views/IssueInfo.vue
             <span :class="{ isSelf: loginUser.id === bookInfo.book.author.id ? true : false }" @click="showBuyTips(1)"
               v-else>Buy</span>
           </div>
           <div class="cardBottomRight" v-if="['unsold', 'off_sale'].includes(bookInfo.status)">
             <span class="tingshou" @click="showBuyTips(1)">closing a sale</span>
+=======
+            <span @click="showBuyTips(1)" v-else>Buy</span>
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
+          </div>
+          <div class="cardBottomRight" v-if="bookInfo.status === 'off_sale'">
+            <span @click="showBuyTips(1)">停售</span>
           </div>
         </div>
       </div>
@@ -568,6 +806,7 @@ const checkDestryLog = () => {
             </div>
           </div>
           <div class="left_2">
+<<<<<<< HEAD:src/views/IssueInfo.vue
             <div class="label">executive logging</div>
             <div class="value desLog" @click="checkDestryLog">{{ encate(bookInfo.destroy_log) || "~" }}</div>
           </div>
@@ -581,6 +820,21 @@ const checkDestryLog = () => {
               </div>
               <span v-else>
                 {{ bookInfo.destroy_log == "" ? "unburned" : "burned" }}
+=======
+            <div class="label">执行记录</div>
+            <div class="value">{{ bookInfo.destroy_log || "~" }}</div>
+          </div>
+          <div class="left_3">
+            <div class="label">状态</div>
+            <div class="value_">
+              <div class="des" v-if="bookInfo.n_circulations == 0 && bookInfo.status == 'on_sale'">
+                <p class="time_">
+                  {{ countTime.days }} : {{ countTime.hours }} : {{ countTime.minutes }} : {{ countTime.seconds }}</p>
+                <p class="dxh">待销毁</p>
+              </div>
+              <span v-else>
+                {{ bookInfo.destroy_log == "" ? "待销毁" : "已销毁" }}
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
               </span>
             </div>
           </div>
@@ -594,7 +848,11 @@ const checkDestryLog = () => {
         <div class="card_Secondary">
           <div v-if="['pre_sale', 'on_sale'].includes(bookInfo.status)" class="shoufa">
             <img src="../assets/img/state_2.svg" alt="" />
+<<<<<<< HEAD:src/views/IssueInfo.vue
             <div>Start it after the supply time is over</div>
+=======
+            <div>首发供应结束后开启</div>
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
           </div>
           <div v-else-if="bookInfo.status == 'unsold'" class="shoufa">
             <img src="../assets/img/state_2.svg" alt="" />
@@ -610,10 +868,16 @@ const checkDestryLog = () => {
             </div>
             <div v-if="naviType === 'List'" class="ListWrap">
               <div v-for="item in tradesList" :key="item.id" class="listItem">
+<<<<<<< HEAD:src/views/IssueInfo.vue
                 <el-image :src="item.user.avatar_url" @click="checkAuthor(item.user.id)"></el-image>
                 <div class="addressWrap">
                   <div class="hoverd" @click="checkAuthor(item.user.id)">{{ item.user.name + '(' +
                     encate(item.user.address) + ')' }}</div>
+=======
+                <el-image  :src="item.user.avatar_url" @click="checkAuthor(item.user.id)"></el-image>
+                <div class="addressWrap">
+                  <div class="hoverd" @click="checkAuthor(item.user.id)">{{ item.user.name + '(' + encate(item.user.address) + ')' }}</div>
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
                   <div>{{ item.updated_at }}</div>
                 </div>
                 <div class="buyWrap">
@@ -626,12 +890,17 @@ const checkDestryLog = () => {
               <NoData v-show="tradesList.length === 0"></NoData>
             </div>
             <div v-if="naviType === 'Activity'" class="ActivityWrap">
+<<<<<<< HEAD:src/views/IssueInfo.vue
               <el-table :data="activityList" class="dark">
                 <el-table-column label="Event" width="90px">
+=======
+              <!-- <el-table :data="activityList" class="light">
+                <el-table-column label="Event" width="80px">
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
                   <template #default="scope">
                     <div class="evenetLable">
-                      <img src="../assets/img/fabu.svg" v-if="scope.row.source === 1" alt="">
-                      <img src="../assets/img/jiaoyi.svg" v-if="scope.row.source === 2" alt="">
+                      <img src="../assets/img/fabu.svg" v-if="scope.row.source === 1" alt="" />
+                      <img src="../assets/img/jiaoyi.svg" v-if="scope.row.source === 2" alt="" />
                       <span>{{ calcSource(scope.row.source) }}</span>
                     </div>
                   </template>
@@ -641,17 +910,24 @@ const checkDestryLog = () => {
                     <div class="hoverd" @click="checkBook(scope.row)"> {{ scope.row.issue.book.title }}</div>
                   </template>
                 </el-table-column>
-                <el-table-column label="Unit Price" prop="price">
+                <el-table-column label="Unit Price" prop="price" width="200px">
                   <template #default="scope">
                     <div class="evenetLable">
+<<<<<<< HEAD:src/views/IssueInfo.vue
                       <img src="../assets/img/jinbi.svg" alt="">
                       <span>{{ scope.row.price }}</span>
+=======
+                      <img src="../assets/img/jinbi.svg" alt="" />
+                      <span>{{ scope.row.price
+                      }}{{ bookInfo.token?.currency }}</span>
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
                     </div>
                   </template>
                 </el-table-column>
                 <el-table-column label="Quantity" prop="quantity" width="90px"></el-table-column>
                 <el-table-column label="From" prop="" show-overflow-tooltip>
                   <template #default="scope">
+<<<<<<< HEAD:src/views/IssueInfo.vue
                     <div class="hoverd" @click="checkAuthor(scope.row.buyer.id)">
                       {{
                         scope.row.buyer.name ? scope.row.buyer.name + '(' + encate(scope.row.buyer.address) + ')' :
@@ -659,21 +935,87 @@ const checkDestryLog = () => {
                       }}
                     </div>
 
+=======
+                    {{
+                      scope.row.buyer.name ? scope.row.buyer.name + '(' + encate(scope.row.buyer.address) + ')' :
+                      encate(scope.row.buyer.address)
+                    }}
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
                   </template>
                 </el-table-column>
                 <el-table-column label="To" prop="to" show-overflow-tooltip>
                   <template #default="scope">
+<<<<<<< HEAD:src/views/IssueInfo.vue
                     <div class="hoverd" @click="checkAuthor(scope.row.seller.id)">
                       {{
                         scope.row.seller.name ? scope.row.seller.name + '(' + encate(scope.row.seller.address) + ')' :
                         encate(scope.row.seller.address)
                       }}
                     </div>
+=======
+                    {{
+                      scope.row.seller.name ? scope.row.seller.name + '(' + encate(scope.row.seller.address) + ')' :
+                      encate(scope.row.seller.address)
+                    }}
+                  </template>
+                </el-table-column>
+                <el-table-column label="Status" prop="updated_at" show-overflow-tooltip>
+                  <template #default="scope">
+                    {{ scope.row.status }}
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
                   </template>
                 </el-table-column>
                 <el-table-column label="Status" prop="status" show-overflow-tooltip width="100px"></el-table-column>
                 <el-table-column label="Date" prop="updated_at" show-overflow-tooltip></el-table-column>
-              </el-table>
+              </el-table> -->
+              <el-table :data="activityList" class="dark">
+            <el-table-column label="Event" width="90px">
+                <template #default="scope">
+                    <div class="evenetLable">
+                        <img src="../assets/img/fabu.svg" v-if="scope.row.source === 1" alt="">
+                        <img src="../assets/img/jiaoyi.svg" v-if="scope.row.source === 2" alt="">
+                        <span>{{ calcSource(scope.row.source) }}</span>
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column label="Book" prop="">
+                <template #default="scope">
+                    <div class="hoverd" @click="checkBook(scope.row)"> {{ scope.row.issue.book.title }}</div>
+                </template>
+            </el-table-column>
+            <el-table-column label="Unit Price" prop="price">
+                <template #default="scope">
+                    <div class="evenetLable">
+                        <img src="../assets/img/jinbi.svg" alt="">
+                        <span>{{ scope.row.price }}</span>
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column label="Quantity" prop="quantity" width="90px"></el-table-column>
+            <el-table-column label="From" prop="" show-overflow-tooltip>
+                <template #default="scope">
+                    <div class="hoverd" @click="checkAuthor(scope.row.buyer.id)">
+                        {{
+                            scope.row.buyer.name ? scope.row.buyer.name + '(' + encate(scope.row.buyer.address) + ')' :
+                            encate(scope.row.buyer.address)
+                        }}
+                    </div>
+
+                </template>
+            </el-table-column>
+            <el-table-column label="To" prop="to" show-overflow-tooltip>
+                <template #default="scope">
+                    <div class="hoverd" @click="checkAuthor(scope.row.seller.id)">
+                        {{
+                            scope.row.seller.name ? scope.row.seller.name + '(' + encate(scope.row.seller.address) + ')' :
+                            encate(scope.row.seller.address)
+                        }}
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column label="Status" prop="status" show-overflow-tooltip width="100px"></el-table-column>
+            <el-table-column label="Date" prop="updated_at" show-overflow-tooltip></el-table-column>
+        </el-table>
             </div>
             <div v-show="naviType === 'Trend'" class="TrendWrap">
               <div id="trendId" v-show="trendList.dates.length > 0"></div>
@@ -917,6 +1259,12 @@ const checkDestryLog = () => {
             display: flex;
 
             .clockTip {
+<<<<<<< HEAD:src/views/IssueInfo.vue
+=======
+              margin-right: 26px;
+              font-size: 18px;
+              font-family: PingFang SC;
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
               color: #42392b;
             }
 
@@ -1182,7 +1530,11 @@ const checkDestryLog = () => {
 
                 .hoverd:hover {
                   text-decoration: underline;
+<<<<<<< HEAD:src/views/IssueInfo.vue
                   color: #7d5321;
+=======
+                  color: #7D5321;
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/IssueInfo.vue
                 }
               }
 

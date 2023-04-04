@@ -25,6 +25,29 @@ const readBook = async (row) => {
 const currentBook = ref({ issue: { book: {} } })
 const tradeForm = ref({ price_range: {} })
 const tradeVisible = ref(false)
+<<<<<<< HEAD:src/components/MyCollection/trades.vue
+=======
+// 刷新issue
+const freshIssues = async () => {
+    window.setLoading()
+    const res = await get(`issues/${currentBook.value.issue.id}/`)
+    window.hideLoading()
+    if (res.ready) {
+        tradeForm.value.issue = res.data.id
+        tradeForm.value.price = 0
+        tradeForm.value.quantity = 0 //数量
+        tradeForm.value.n_owned = res.data.n_owned //拥有
+        tradeForm.value.price_range = res.data.price_range
+        tradeVisible.value = true
+    }
+}
+const sellBook = async (row) => {
+    currentBook.value = row
+    // 获取issue详情页
+    freshIssues()
+}
+
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/components/MyCollection/asset.vue
 // 售卖
 const createTrade = async () => {
     if (tradeForm.value.n_owned == 0) {
@@ -105,7 +128,11 @@ const checkDetail = (issueId) => {
                         <img src="../../assets/img/read.svg" alt="">
                         <span>cancel</span>
                     </div>
+<<<<<<< HEAD:src/components/MyCollection/trades.vue
                     <div class="opItem" @click="editPrice(item)">
+=======
+                    <div class="opItem" @click="sellBook(item)" v-if="item.issue.status !== 'on_sale'">
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/components/MyCollection/asset.vue
                         <img src="../../assets/img/sell.svg" alt="">
                         <span>edit</span>
                     </div>

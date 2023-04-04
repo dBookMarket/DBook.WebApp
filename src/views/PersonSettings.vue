@@ -87,9 +87,19 @@ const twitterAuth = async () => {
           <img src="../assets/img/twitter.svg" alt="">
           <span>Twitter</span>
         </div>
+<<<<<<< HEAD:src/views/PersonSettings.vue
         <div class="authBtn" @click="twitterAuth">
           {{ form.is_verified ? 'reverify' : 'verify' }}
         </div>
+=======
+        <div class="authBtn" @click="twitterAuth" >
+          {{ form.is_verified? '重新认证':'认证' }}
+        </div>
+      </div>
+      <div class="copyWrap">
+        <el-input v-model="form.twitter_url" class="cusInput addressInput" diabled></el-input>
+        <img src="../assets/img/copy.svg" alt="" @click="copyAddress(form.twitter_url)">
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/PersonSettings.vue
       </div>
       <div class="copyWrap">
         <el-input v-model="form.twitter_url" class="cusInput addressInput" readonly></el-input>
@@ -101,7 +111,11 @@ const twitterAuth = async () => {
       <el-input v-model="form.discord_url" class="cusInput" placeholder="https://"></el-input>
       <div class="title_">Wallet address</div>
       <div class="copyWrap">
+<<<<<<< HEAD:src/views/PersonSettings.vue
         <el-input v-model="form.address" class="cusInput addressInput" readonly></el-input>
+=======
+        <el-input v-model="form.address" class="cusInput addressInput" diabled></el-input>
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/PersonSettings.vue
         <img src="../assets/img/copy.svg" alt="" @click="copyAddress(form.address)">
       </div>
       <div class="operaBtn" @click="updateUser">Save</div>

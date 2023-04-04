@@ -56,7 +56,7 @@ const router = createRouter({
             component: WritePublishManagement
         },
     ],
-    history: createWebHistory(), //history模式使用HTML5模式
+    history: createWebHashHistory(), //history模式使用HTML5模式
 });
 
 export default router;

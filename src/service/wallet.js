@@ -1326,6 +1326,7 @@ class Wallet {
             if (typeof window.ethereum !== 'undefined') {
                 // 实例化web3
                 this.web3Instance = new web3(ethereum) // 取小狐狸的地址
+<<<<<<< HEAD:src/service/wallet.js
                 ethereum.request({
                     method: 'eth_chainId'
                 }).then(res => {
@@ -1333,6 +1334,14 @@ class Wallet {
                     setEvent.key = "oooooooooo"
                     setEvent.newValue = res
                     window.dispatchEvent(setEvent)
+=======
+                ethereum.request({ method: 'eth_chainId' }).then(res => {
+                    console.log(res)
+                    let setEvent = new Event('setItemEvent')
+            setEvent.key = "oooooooooo"
+            setEvent.newValue = res
+            window.dispatchEvent(setEvent)
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/service/wallet.js
                 })
                 this.chainChanged();
                 if (blockChain) {
@@ -1363,9 +1372,13 @@ class Wallet {
         // 判断链对不，链不对就请求切换网络，或者添加网络，
         if (window.ethereum) {
             // 返回16进制形式的chainID，如0x1, 0x4等
+<<<<<<< HEAD:src/service/wallet.js
             const chainId = await ethereum.request({
                 method: 'eth_chainId'
             })
+=======
+            const chainId = await ethereum.request({ method: 'eth_chainId' })
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/service/wallet.js
             try {
                 await window.ethereum.request({
                     method: 'wallet_switchEthereumChain',

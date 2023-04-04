@@ -1,5 +1,9 @@
 <script setup>
+<<<<<<< HEAD:src/components/Header.vue
 import { nextTick, onMounted, ref, computed } from "vue"
+=======
+import { nextTick, onMounted, ref } from "vue"
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/components/Header.vue
 import person_icon_1 from "../assets/img/person_icon_1.svg"
 import person_icon_2 from "../assets/img/person_icon_2.svg"
 import person_icon_3 from "../assets/img/person_icon_3.svg"
@@ -13,15 +17,20 @@ import message from "../assets/lib/resetMessage"
 import cache from "../assets/lib/cache"
 import { get, post, put } from "../service/http"
 import Wallet from '../service/wallet'
+<<<<<<< HEAD:src/components/Header.vue
 import Wallet_Mobile from '../service/walletMobile'
 import { imageUrlToBase64, IsPC } from "../assets/lib/util"
 import config from "../service/url"
 import SocketService from "../service/websocket";
 import { ElNotification } from 'element-plus'
+=======
+import { imageUrlToBase64 } from "../assets/lib/util"
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/components/Header.vue
 const emit = defineEmits(['verify'])
 const walletSelectedAddress = ref('')
 const userInfo = ref({ avatar_url: '' })
 const getWallet = async () => {
+  window.setLoading()
   cache.clear()
   let address, walletInstance;
   if (IsPC()) {
@@ -102,6 +111,7 @@ const checkWallet = async () => {
       const res = await get("users/current")
       if (res.ready) {
         userInfo.value = res.data
+<<<<<<< HEAD:src/components/Header.vue
         // 有头像的才缓存数据
         if (userInfo.value.avatar_url) {
           cache.set('userInfo', res.data)
@@ -135,6 +145,22 @@ const checkWallet = async () => {
           duration: 0
         })
       });
+=======
+        cache.set("userInfo", res.data)
+      }
+    }
+    if (!userInfo.value.name && !userInfo.value.avatar_url) {
+      // 新用户没有头像 和 名字
+      const formData = new FormData()
+      formData.set("name", encate(userInfo.value.address))
+      const randomImgIndex = Math.floor(Math.random() * 20 + 1)
+      const avatar_url = '/src/assets/img/avatar/' + randomImgIndex + '.svg'
+      imageUrlToBase64(avatar_url, async (file) => {
+        formData.set('avatar', file)
+        const res = await put(`users/${userInfo.value.id}`, formData)
+        cache.set("userInfo", res.data)
+      })
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/components/Header.vue
     }
   } else {
     walletSelectedAddress.value = ''
@@ -142,9 +168,16 @@ const checkWallet = async () => {
 }
 // 检查到token变化 则更新
 window.addEventListener("setItemEvent", async function (e) {
+<<<<<<< HEAD:src/components/Header.vue
   if (e.key === "userInfo") {
     const data = JSON.parse(e.newValue);
     userInfo.value = data;
+=======
+  if (e.key === "token") {
+    checkWallet()
+  } else if (e.key === "userInfo") {
+    userInfo.value = JSON.parse(e.newValue);
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/components/Header.vue
     console.log("cache")
   }
 })

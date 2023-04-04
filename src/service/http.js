@@ -105,17 +105,23 @@ service.interceptors.response.use(
             }
             return dealBulkData(null);
         } else {
+<<<<<<< HEAD:src/service/http.js
             window.hideLoading()
             if (response.status === 403) {
                 cache.clear()
                 router.push({ path: '/' })
             }
+=======
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/service/http.js
             return Promise.reject();
         }
     },
     err => {
+<<<<<<< HEAD:src/service/http.js
         hideLoading();
         console.log(err)
+=======
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/service/http.js
         // 请求被取消了，响应器也会走错误流程，这里返回一下自定义格式
         if (err) {
             // if(err.config && err.config.headers.showLoading !== false) {
@@ -190,7 +196,11 @@ const errorHandler = (error) => {
  * @param config
  */
 export const get = async (url, config = {}) => {
+<<<<<<< HEAD:src/service/http.js
     return service.get(url, config.headers ? config : { params: config }).then((res) => res, (err) => errorHandler(err));
+=======
+    return  service.get(url, config.headers ? config : { params: config }).then((res) => res, (err) => errorHandler(err));
+>>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/service/http.js
 };
 export const post = (url, data, config) => {
     return service.post(url, data, config).then((res) => res, (err) => errorHandler(err));
