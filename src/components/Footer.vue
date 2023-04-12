@@ -1,12 +1,8 @@
 <script setup>
 import { ref } from "vue"
 import AppDownloadCom from "./AppDownload.vue"
-<<<<<<< HEAD:src/components/Footer.vue
 import { IsPC } from "../assets/lib/util"
 
-=======
-import qrcodeImg from "../assets/img/qrcode.jpeg"
->>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/components/Footer.vue
 const downloadRef = ref(null)
 const toTwitter = () => {
   window.location.href = 'https://twitter.com/ddid_io'

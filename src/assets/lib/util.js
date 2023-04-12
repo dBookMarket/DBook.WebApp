@@ -33,10 +33,6 @@ function base64toFile(dataurl, filename = 'file') {
   console.log(file)
   return file
 }
-<<<<<<< HEAD:src/assets/lib/util.js
-=======
-
->>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/assets/lib/util.js
 // 校验大于等于0 的整数
 export function validateNumber(num) {
   var regNumber = /^\+?[1-9][0-9]*$/;
@@ -46,7 +42,6 @@ export function validateNumber(num) {
     return false;
   }
 }
-<<<<<<< HEAD:src/assets/lib/util.js
 export function IsPC() {
   var userAgentInfo = navigator.userAgent;
   var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
@@ -56,6 +51,3 @@ export function IsPC() {
   }
   return flag;
 }
-=======
-
->>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/assets/lib/util.js

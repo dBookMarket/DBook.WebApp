@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "vite build --base=/client/",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -15,11 +15,7 @@
     "@walletconnect/web3-provider": "^1.8.0",
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-vue": "next",
-<<<<<<< HEAD:package.json
     "buffer": "^6.0.3",
-=======
-    "add-to-calendar-button": "^2.1.4",
->>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/package.json
     "echarts": "^5.2.0",
     "element-plus": "^1.2.0-beta.1",
     "epubjs": "^0.3.93",

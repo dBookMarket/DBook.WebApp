@@ -97,10 +97,6 @@ const goOn = async () => {
     // 编辑
     res = await patch(`books/${bookOrDraftId}`, formData)
   }
-<<<<<<< HEAD:src/views/PublishBook.vue
-=======
-  console.log(res)
->>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/PublishBook.vue
   if (res.ready) {
     message.success("success!")
     form.value = {}
@@ -125,12 +121,7 @@ const goOn = async () => {
       </div>
       <!-- 新上传 -->
       <div class="uploadWrap" v-show="currentType == 1">
-<<<<<<< HEAD:src/views/PublishBook.vue
         <el-upload action="#" :show-fileList="false" :auto-upload="false" :on-change="changeBookFile" accept=".pdf, .epub">
-=======
-        <el-upload action="#" :show-fileList="false" :auto-upload="false" :on-change="changeBookFile"
-          accept=".pdf, .epub">
->>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/views/PublishBook.vue
           <div class="bookPost" :class="{ 'hasBook': form.book_name ? true : false }">
             <div>
               <img src="../assets/img/book.svg" alt="" class="coverIcon">

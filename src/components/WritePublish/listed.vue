@@ -14,40 +14,24 @@ const getBooks = async (showLoading = true) => {
     const res = await get(`/books`)
     listedList.value = res.data.results
     const hasPending = listedList.value.some(el => el.status === 'pending')
-<<<<<<< HEAD:src/components/WritePublish/listed.vue
     if (hasPending) {
-=======
-    if(hasPending) {
->>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/components/WritePublish/listed.vue
         setTimeout(() => {
             getBooks(false)
         }, 60000)
     }
     showLoading && setTimeout(() => {
         window.hideLoading()
-<<<<<<< HEAD:src/components/WritePublish/listed.vue
     }, 1000)
-=======
-    },1000)
->>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/components/WritePublish/listed.vue
 }
 getBooks()
 // 编辑
 const editBook = async (row) => {
-<<<<<<< HEAD:src/components/WritePublish/listed.vue
     if (row.status !== 'success') return
-=======
-    if(row.status !== 'success') return
->>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/components/WritePublish/listed.vue
     router.push({ path: `/publishBook/${row.id}/book` })
 }
 // 上架
 const publishNow = async (row) => {
-<<<<<<< HEAD:src/components/WritePublish/listed.vue
     if (row.status !== 'success') return
-=======
-    if(row.status !== 'success') return
->>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/components/WritePublish/listed.vue
     router.push({ path: `/shangjia/-1/${row.id}` })
 }
 // 删除待上架
@@ -64,15 +48,9 @@ const delBook = async (row) => {
     <div class="cardOperaListed listed">
         <div class="cardOperaItem" v-for="item in listedList" :key="item.id">
             <div class="card_left">
-<<<<<<< HEAD:src/components/WritePublish/listed.vue
                 <div class="imgCover" v-loading="item.status !== 'success'"
                     element-loading-text="During data processing, it is expected to be 2 Minute">
                     <el-image class="postImg" :src="item.cover_url" fit="cover" @click="editBook(item)"></el-image>
-=======
-                <div class="imgCover"  v-loading="item.status !== 'success'"
-                    element-loading-text="During data processing, it is expected to be 2 Minute">
-                        <el-image class="postImg" :src="item.cover_url" fit="cover"></el-image>
->>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/components/WritePublish/listed.vue
                 </div>
                 <el-tooltip class="box-item" effect="light" :content="item.title" placement="top-start">
                     <div class="bookName">{{ item.title }}</div>
@@ -80,11 +58,7 @@ const delBook = async (row) => {
             </div>
             <div class="card_right">
                 <div class="opList" :class="[item.status]">
-<<<<<<< HEAD:src/components/WritePublish/listed.vue
                     <div class="opItem" @click="editBook(item)">
-=======
-                    <div class="opItem" @click="editBook(item)" >
->>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/components/WritePublish/listed.vue
                         <img src="../../assets/img/edit.svg" alt="">
                         <span>edit</span>
                     </div>
@@ -92,14 +66,9 @@ const delBook = async (row) => {
                         <img src="../../assets/img/book_black.svg" alt="">
                         <span>issue</span>
                     </div>
-<<<<<<< HEAD:src/components/WritePublish/listed.vue
                     <el-popconfirm v-if="item.status === 'success'" confirm-button-text="OK" confirm-button-type="danger"
                         cancel-button-text="No, Thanks" :icon="InfoFilled" icon-color="#F00"
                         title="Are you sure to delete this?" @confirm="delBook(item)">
-=======
-                    <el-popconfirm v-if="item.status === 'success'" confirm-button-text="OK" confirm-button-type="danger" cancel-button-text="No, Thanks"
-                        :icon="InfoFilled" icon-color="#F00" title="Are you sure to delete this?" @confirm="delBook(item)">
->>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/components/WritePublish/listed.vue
                         <template #reference>
                             <div class="opItem delWrap" v-if="item.status === 'success'">
                                 <img src="../../assets/img/del_red.svg" alt="">
@@ -133,7 +102,6 @@ const delBook = async (row) => {
 
     .card_left {
         .imgCover {
-<<<<<<< HEAD:src/components/WritePublish/listed.vue
 
             .el-loading-mask,
             .postImg {
@@ -142,15 +110,6 @@ const delBook = async (row) => {
             }
 
 
-=======
-            .el-loading-mask,.postImg {
-                width: 140px;
-                height: 180px;
-            }
-            .el-loading-spinner{
-                top:20%;
-            }
->>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/components/WritePublish/listed.vue
         }
 
         .bookName {
@@ -192,7 +151,6 @@ const delBook = async (row) => {
                 }
             }
         }
-<<<<<<< HEAD:src/components/WritePublish/listed.vue
 
         .opList.pending {
             .opItem {
@@ -201,14 +159,6 @@ const delBook = async (row) => {
                 user-select: none;
 
                 span {
-=======
-        .opList.pending {
-            .opItem{
-                position: relative;
-                cursor:not-allowed;
-                user-select: none;
-                span{
->>>>>>> c99168c2ef1181c487a4b0d85cb9f55ac094e401:web/src/components/WritePublish/listed.vue
                     color: #ccc;
                 }
             }
