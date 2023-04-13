@@ -18,6 +18,7 @@ const getCollection = async () => {
   window.hideLoading()
 }
 // 阅读
+const areaKey = ref(0)
 const pdfUrl = ref('')
 const bookReading = ref(false)
 const bookTitle = ref('')
@@ -33,7 +34,6 @@ const readBook = async (row) => {
     const suffix = file_url.substring(file_url.lastIndexOf("."));//.txt
     if (suffix === '.epub') {
       pdfUrl.value = ''
-      // book.open("url/to/book/")
       var book = ePub(file_url);
       rendition = book.renderTo("area", {
         width: '100%',   //也可以是'980px'这样的
@@ -47,6 +47,7 @@ const readBook = async (row) => {
     }
     await nextTick()
     bookReading.value = true
+    ++areaKey.value;
   }
 }
 
@@ -149,7 +150,7 @@ getCollection()
       <el-scrollbar style="height:90vh;">
         <div class="readContainer">
           <iframe :src="pdfUrl" frameborder="0" v-if="pdfUrl"></iframe>
-          <div id="area" v-else>
+          <div id="area" v-else :key="areaKey">
             <el-icon class="leftIcon" @click="prevPage" v-if="pageNumber > 0">
               <ArrowLeftBold />
             </el-icon>

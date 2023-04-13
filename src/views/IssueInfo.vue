@@ -95,7 +95,6 @@ const getBookIssue = async (id) => {
     .format("YYYY-MM-DD HH:mm:ss");
   res.data.published_at = published_at
   bookInfo.value = res.data;
-  console.log(bookInfo.value)
   // 获取二级市场挂单列表
   getTradesList();
   if (bookInfo.value.status == "pre_sale") {
@@ -150,7 +149,6 @@ const getTradesList = async () => {
 const activityList = ref([]);
 const getTransactions = async () => {
   const res = await get("/transactions", { issue: bookInfo.value.id });
-  console.log(res);
   activityList.value = res.data.results;
 };
 // 二手市场交易趋势图trend
@@ -242,7 +240,6 @@ const buyTips = ref(false);
 
 const loginUser = cache.get("userInfo") || {}
 const showBuyTips = (level, secondData) => {
-  console.log("bookInfo.value.book", secondData, bookInfo.value.book)
   if (loginUser.id === bookInfo.value.book.author.id) {
     message.error("您不能购买自己发布的书籍")
     return
@@ -285,8 +282,6 @@ const buyNow = async () => {
         return
       }
     }
-
-
   } else {
     walletInstance = new walletMobile(block_chain);
     provider = walletInstance.ethers_provider
@@ -373,7 +368,6 @@ const buyNow = async () => {
   }
 };
 const addWish = async () => {
-  console.log(bookInfo.value)
   let res;
   if (bookInfo.value.is_wished) {
     // 取消收藏
